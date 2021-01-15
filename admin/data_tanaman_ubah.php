@@ -19,6 +19,6 @@ $row = $query->fetch_array(MYSQLI_ASSOC);
 			</div>
 		</div>
 	</div>
-	<input type="submit" name="ubah" value="UBAH" class="btn btn-link waves-effect">
-	<button type="button" class="btn btn-link waves-effect" data-dismiss="modal">TUTUP</button>
+	<button type="submit" name="ubah" class="btn btn-success">UBAH</button>
+	<button type="button" class="btn btn-danger" data-dismiss="modal">TUTUP</button>
 </form>

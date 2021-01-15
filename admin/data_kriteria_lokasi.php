@@ -25,128 +25,107 @@
                         </nav>
                     </div>
                 </div>
-
             </div>
             <section class="section">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-header">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#smallModal">
+                <div class="card">
+                    <div class="card-header">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#smallModal">
                             <i data-feather="plus" width="20"></i>
-                                <span>Tambah Data Lokasi</span>
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Lokasi Lokasi</th>
-                                        <?php 
-                                                    $sql = "SELECT * FROM tb_kriteria_lokasi";
-                                                    $query = $connect->query($sql);
-                                                    $result = $query->fetch_array();
-                                                    $kriteria = json_decode($result['kriteria'], true);             
-                                                    ?>
-                                        <th><?= $kriteria[0]['kriteria'] ?></th>
-                                        <th><?= $kriteria[2]['kriteria'] ?></th>
-                                        <th><?= $kriteria[3]['kriteria'] ?></th>
-                                        <th><?= $kriteria[4]['kriteria'] ?></th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <span>Tambah Data Lokasi</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class='table table-striped' id="table1">
+                            <thead>
+                                <tr>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Lokasi Lokasi</th>
+                                    <?php
+                                    $sql      = "SELECT * FROM tb_kriteria_lokasi";
+                                    $query    = $connect->query($sql);
+                                    $result   = $query->fetch_array();
+                                    $kriteria = json_decode($result['kriteria'], true);
+                                    ?>
+                                    <th><?= $kriteria[0]['kriteria'] ?></th>
+                                    <th><?= $kriteria[2]['kriteria'] ?></th>
+                                    <th><?= $kriteria[3]['kriteria'] ?></th>
+                                    <th><?= $kriteria[4]['kriteria'] ?></th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                    <?php 
-                                                $no = 1;
-                                                $sql1 = "SELECT a.id_lokasi, b.nama_lokasi, a.kriteria FROM tb_kriteria_lokasi AS a INNER JOIN tb_lokasi AS b ON b.id_lokasi = a.id_lokasi";
-                                                $query = $connect->query($sql1);
-                                                while ($row = $query->fetch_array()) {
-                                                    $kriteria = json_decode($row['kriteria'], true); ?>
-
+                                <?php
+                                $no = 1;
+                                $sql1 = "SELECT a.id_lokasi, b.nama_lokasi, a.kriteria FROM tb_kriteria_lokasi AS a INNER JOIN tb_lokasi AS b ON b.id_lokasi = a.id_lokasi";
+                                $query = $connect->query($sql1);
+                                while ($row = $query->fetch_array()) {
+                                    $kriteria = json_decode($row['kriteria'], true); ?>
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td><?= $row['nama_lokasi'] ?></td>
                                         <td>
-                                            <?php 
-                                                            if ($kriteria[0]['weight'] == 4) {
-                                                                echo "Latosol";
-                                                            } else if ($kriteria[0]['weight'] == 3) {
-                                                                echo "Organosol";
-                                                            } else if ($kriteria[0]['weight'] == 2) {
-                                                                echo "Podzolik";  
-                                                            } else if ($kriteria[0]['weight'] == 1) {
-                                                                echo "Litosol";
-                                                            }
-                                                            ?>
+                                            <?php
+                                            if ($kriteria[0]['weight'] == 4) {
+                                                echo "Latosol";
+                                            } else if ($kriteria[0]['weight'] == 3) {
+                                                echo "Organosol";
+                                            } else if ($kriteria[0]['weight'] == 2) {
+                                                echo "Podzolik";
+                                            } else if ($kriteria[0]['weight'] == 1) {
+                                                echo "Litosol";
+                                            }
+                                            ?>
                                         </td>
                                         <td>
                                             <?php
-                                                            if ($kriteria[2]['weight'] == 2) {
-                                                                echo "Ada";
-                                                            } else if ($kriteria[2]['weight'] == 1) {
-                                                                echo "Tidak Ada";
-                                                            }
-                                                            ?>
+                                            if ($kriteria[2]['weight'] == 2) {
+                                                echo "Ada";
+                                            } else if ($kriteria[2]['weight'] == 1) {
+                                                echo "Tidak Ada";
+                                            }
+                                            ?>
                                         </td>
                                         <td>
                                             <?php
-                                                            if ($kriteria[3]['weight'] == 4) {
-                                                                echo "Basa Sedang (7,5 - 8,5)";
-                                                            } else if ($kriteria[3]['weight'] == 3) {
-                                                                echo "Netral (7,0 - 7,5)";
-                                                            } else if ($kriteria[3]['weight'] == 2) {
-                                                                echo "Asam Sedang (4,0 - 6,9)";
-                                                            } else if ($kriteria[3]['weight'] == 1) {
-                                                                echo "Sangat Asam (< 4)";
-                                                            }
-                                                            ?>
+                                            if ($kriteria[3]['weight'] == 4) {
+                                                echo "Basa Sedang (7,5 - 8,5)";
+                                            } else if ($kriteria[3]['weight'] == 3) {
+                                                echo "Netral (7,0 - 7,5)";
+                                            } else if ($kriteria[3]['weight'] == 2) {
+                                                echo "Asam Sedang (4,0 - 6,9)";
+                                            } else if ($kriteria[3]['weight'] == 1) {
+                                                echo "Sangat Asam (< 4)";
+                                            }
+                                            ?>
                                         </td>
                                         <td>
                                             <?php
-                                                            if ($kriteria[4]['weight'] == 2) {
-                                                                echo "Dataran Tinggi (500 - 1500 mdpl)";
-                                                            } else if ($kriteria[4]['weight'] == 1) {
-                                                                echo "Dataran Rendah (0 - 500 mdpl)";
-                                                            }
-                                                            ?>
+                                            if ($kriteria[4]['weight'] == 2) {
+                                                echo "Dataran Tinggi (500 - 1500 mdpl)";
+                                            } else if ($kriteria[4]['weight'] == 1) {
+                                                echo "Dataran Rendah (0 - 500 mdpl)";
+                                            }
+                                            ?>
                                         </td>
                                         <td>
-                                            <div class='btn-group btn-group-sm' role='group'
-                                                aria-label='Small button group'>
-                                                <a href='#editmodal' class='btn btn-primary waves-effect'
-                                                    data-toggle='modal' data-id="<?= $row['id_lokasi'] ?>"><i
-                                                        class='material-icons'>edit</i></a>
-                                                <a href='data_kriteria_lokasi_hapus.php?id_lokasi=<?= $row['id_lokasi'] ?>'
-                                                    class='btn btn-danger waves-effect'><i
-                                                        class='material-icons'>delete</i></a>
-                                            </div>
+                                            <a href="#editmodal" class="btn btn-primary" data-toggle='modal' data-id="<?= $row['id_lokasi'] ?>"><i data-feather="edit"></i>&nbsp;Ubah</a>
+                                            <a href="data_kriteria_lokasi_hapus.php?id_lokasi=<?= $row['id_lokasi'] ?>" class="btn btn-danger waves-effect"><i data-feather="delete"></i>&nbsp;Hapus</a>
                                         </td>
                                     </tr>
-
-                                    <?php } ?>
-
-                                </tbody>
-                            </table>
-                        </div>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
 
         </div>
 
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-left">
-                    <p>2020 &copy; Voler</p>
-                </div>
-                <div class="float-right">
-                    <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a
-                            href="http://ahmadsaugi.com">Ahmad Saugi</a></p>
-                </div>
-            </div>
-        </footer>
+        <!-- begin:: footer -->
+        <?php include_once 'atribut/footer.php'; ?>
+        <!-- end:: footer -->
     </div>
 </div>
 
@@ -158,23 +137,20 @@
                 <h4 class="modal-title" id="smallModalLabel">Input Data Kriteria Lokasi</h4>
             </div>
             <div class="modal-body">
-
-
                 <form method="POST">
                     <div class="col-sm-12">
-
                         <div class="form-group form-float">
                             <div class="form-line">
                                 <select class="form-control show-tick" name="inp_namalokasi">
                                     <option>Nama Lokasi</option>
                                     <?php
-                                            $sql      = "SELECT * FROM tb_lokasi";
-                                            $lokasi = $connect->query($sql);
+                                    $sql      = "SELECT * FROM tb_lokasi";
+                                    $lokasi = $connect->query($sql);
 
-                                            while ($row = $lokasi->fetch_array(MYSQLI_ASSOC)) {
-                                                ?>
-                                    <option value="<?php echo $row['id_lokasi'] ?>"><?php echo $row['nama_lokasi']; ?>
-                                    </option>
+                                    while ($row = $lokasi->fetch_array(MYSQLI_ASSOC)) {
+                                    ?>
+                                        <option value="<?php echo $row['id_lokasi'] ?>"><?php echo $row['nama_lokasi']; ?>
+                                        </option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -213,22 +189,25 @@
                                     <option value="4">Basa Sedang (7,5 - 8,5)</option>
                                     <option value="3">Netral (7,0 - 7,5)</option>
                                     <option value="2">Asam Sedang (4,0 - 6,9)</option>
-                                    <option value="1">Sangat Asam (< 4)</option> </select> </div> </div> <div
-                                            class="form-group form-float">
-                                            <div class="form-line">
-                                                <input type="hidden" name="id_kriteria5" value="5" readonly="readonly">
-                                                <select name="kriteria5" class="form-control show-tick">
-                                                    <option>Ketinggian Tempat</option>
-                                                    <option value="2">Dataran Tinggi (500 - 1500 mdpl)</option>
-                                                    <option value="1">Dataran Rendah (0 - 500 mdpl)</option>
-                                                </select>
-                                            </div>
+                                    <option value="1">Sangat Asam (< 4)</option>
+                                </select>
                             </div>
                         </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="hidden" name="id_kriteria5" value="5" readonly="readonly">
+                                <select name="kriteria5" class="form-control show-tick">
+                                    <option>Ketinggian Tempat</option>
+                                    <option value="2">Dataran Tinggi (500 - 1500 mdpl)</option>
+                                    <option value="1">Dataran Rendah (0 - 500 mdpl)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
 
-                        <input type="submit" name="tambah" value="TAMBAH" class="btn btn-link waves-effect">
-                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">TUTUP</button>
+                    <input type="submit" name="tambah" value="TAMBAH" class="btn btn-link waves-effect">
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">TUTUP</button>
                 </form>
 
             </div>
@@ -343,26 +322,30 @@
         </div>
     </div>
 </div>
+
 <!-- begin:: foot -->
 <?php include_once 'atribut/foot.php'; ?>
 <!-- end:: foot -->
 
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script src="assets/js/vendors.js"></script>
+
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#editmodal').on('show.bs.modal', function (e) {
+    $(document).ready(function() {
+        $('#editmodal').on('show.bs.modal', function(e) {
             var id_lokasi = $(e.relatedTarget).data('id');
 
             $.ajax({
                 type: 'get',
                 url: 'data_kriteria_lokasi_ubah.php',
                 data: 'id_lokasi=' + id_lokasi,
-                success: function (data) {
+                success: function(data) {
                     $('.hasil-data').html(data);
                 }
             });
         });
 
-        $('#kriteria1').change(function () {
+        $('#kriteria1').change(function() {
             var val = $(this).val();
 
             if (val == 4) {
@@ -376,12 +359,10 @@
             }
 
         });
-
     });
 </script>
 
-<?php 
-
+<?php
 if (isset($_POST['tambah'])) {
 
     $nm_lokasi = $_POST['inp_namalokasi'];
@@ -395,7 +376,6 @@ if (isset($_POST['tambah'])) {
         alert('Ada')
         window.location=(href='data_kriteria_lokasi.php')
         </script>";
-
     } else {
 
         $array_kriteria = array(
@@ -414,17 +394,13 @@ if (isset($_POST['tambah'])) {
             alert('Berhasil')
             window.location=(href='data_kriteria_lokasi.php')
             </script>";
-        }
-
-        else {
+        } else {
             echo "<script>
             alert('Gagal')
             window.location=(href='data_kriteria_lokasi.php')
             </script>";
         }
-
     }
-
 } else if (isset($_POST['ubah'])) {
 
     $id_lokasi = $_POST['id_lokasi'];
@@ -438,7 +414,7 @@ if (isset($_POST['tambah'])) {
         ['id_kriteria' => $_POST['id_kriteria5'], 'kriteria' => 'Ketinggian Tempat', 'weight' => $_POST['kriteria5']]
     );
     $data_kriteria = json_encode($array_kriteria);
-    
+
     $query  = "UPDATE tb_kriteria_lokasi SET kriteria = '$data_kriteria' WHERE id_lokasi = '$id_lokasi' ";
     $result = $connect->query($query);
 
@@ -447,14 +423,11 @@ if (isset($_POST['tambah'])) {
         alert('Berhasil')
         window.location=(href='data_kriteria_lokasi.php')
         </script>";
-    }
-
-    else {
+    } else {
         echo "<script>
         alert('Gagal')
         window.location=(href='data_kriteria_lokasi.php')
         </script>";
     }
 }
-
 ?>

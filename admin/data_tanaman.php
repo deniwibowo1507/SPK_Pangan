@@ -25,150 +25,124 @@
                         </nav>
                     </div>
                 </div>
-
             </div>
             <section class="section">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-header">
+                <div class="card">
+                    <div class="card-header">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#smallModal">
-                                            <i class="material-icons">add</i>
-                                            <span>Tambah Tanaman</span>
-                                        </button>
-                        </div>
-                        <div class="card-body">
-                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Nama Tanaman</th>
-                                                    <th>Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php 
-                                                $no = 1;
-                                                $sql = "SELECT * FROM tb_alternatif";
-                                                $query = $connect->query($sql);
-
-                                                while ($row = $query->fetch_array()) {
-                                                    echo "<tr>";
-                                                    echo "<td>".$no++."</td>";
-                                                    echo "<td>".$row['name']."</td>";
-                                                    echo "<td>
-                                                    <div class='btn-group btn-group-sm' role='group' aria-label='Small button group'>
-                                                    <a href='#editmodal' class='btn btn-primary waves-effect' data-toggle='modal' data-id=".$row['id_alternative']."><i class='material-icons'>edit</i>Ubah</a>
-                                                    <a href='data_tanaman_hapus.php?id_tanaman=".$row['id_alternative']."' class='btn btn-danger waves-effect'><i class='material-icons'>delete</i>Hapus</a>
-                                                    </div>
-
-                                                    </td>";
-                                                    echo "</tr>";
-                                                }
-
-                                                ?>
-
-                                            </tbody>
-                                        </table>
-                        </div>
+                            <i data-feather="plus"></i>&nbsp;Tambah Tanaman
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Tanaman</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no    = 1;
+                                $sql   = "SELECT * FROM tb_alternatif";
+                                $query = $connect->query($sql);
+                                while ($row = $query->fetch_array()) { ?>
+                                    <tr>
+                                        <td><?= $no++ ?></td>
+                                        <td><?= $row['name'] ?></td>
+                                        <td>
+                                            <a href="#editmodal" class="btn btn-primary waves-effect" data-toggle="modal" data-id="<?= $row['id_alternative'] ?>">
+                                                <i data-feather="edit"></i>&nbsp;Ubah
+                                            </a>
+                                            <a href="data_tanaman_hapus.php?id_tanaman=<?= $row['id_alternative'] ?>" class="btn btn-danger waves-effect">
+                                                <i data-feather="delete"></i>&nbsp;Hapus
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
-
         </div>
 
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-left">
-                    <p>2020 &copy; Voler</p>
-                </div>
-                <div class="float-right">
-                    <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a
-                            href="http://ahmadsaugi.com">Ahmad Saugi</a></p>
-                </div>
-            </div>
-        </footer>
+        <!-- begin:: footer -->
+        <?php include_once 'atribut/footer.php'; ?>
+        <!-- end:: footer -->
     </div>
 </div>
 
 <!-- begin:: modal tambah -->
 <div class="modal fade" id="smallModal" tabindex="-1" role="dialog">
-                                            <div class="modal-dialog modal-sm" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" id="smallModalLabel">Input Nama Tanaman</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <?php 
-                                                        $query = "SELECT max(id_alternative) as maxKode FROM tb_alternatif";
-                                                        $hasil = mysqli_query($connect,$query);
-                                                        $data = mysqli_fetch_array($hasil);
-                                                        $kodeOtomatis = $data['maxKode'];
-                                                        $noUrut = (int) substr($kodeOtomatis, 0, 3);
-                                                        $noUrut++;
-                                                        $kodeOtomatis = $noUrut;
-                                                        ?>
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="smallModalLabel">Input Nama Tanaman</h4>
+            </div>
+            <div class="modal-body">
+                <?php
+                $query        = "SELECT max(id_alternative) as maxKode FROM tb_alternatif";
+                $hasil        = mysqli_query($connect, $query);
+                $data         = mysqli_fetch_array($hasil);
+                $kodeOtomatis = $data['maxKode'];
+                $noUrut       = (int) substr($kodeOtomatis, 0, 3);
+                $noUrut++;
+                $kodeOtomatis = $noUrut;
+                ?>
 
-                                                        <form method="POST">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group form-float">
-                                                                    <div class="form-line">
-                                                                        <input type="hidden" name="inp_idalternative" value="<?php echo $kodeOtomatis; ?>" />
-                                                                        <input type="text" class="form-control" name="inp_tan" required="required">
-                                                                        <label class="form-label">Nama Tanaman</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <input type="submit" name="tambah" value="TAMBAH" class="btn btn-link waves-effect">
-                                                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">TUTUP</button>
-                                                        </form>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                    <div class="body table-responsive">
-                                        
-                                    </div>
-                                </div>
+                <form method="POST">
+                    <div class="col-sm-12">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label class="form-label">Nama Tanaman</label>
+                                <input type="hidden" name="inp_idalternative" value="<?php echo $kodeOtomatis; ?>" />
+                                <input type="text" class="form-control" name="inp_tan" required="required">
                             </div>
                         </div>
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-success">TAMBAH</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">TUTUP</button>
+                </form>
             </div>
         </div>
-        
-        <div class="modal fade" id="editmodal" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="smallModalLabel">Ubah Lokasi Penanaman</h4>
-                    </div>
-                    <div class="modal-body">
+    </div>
+</div>
+<!-- end:: modal tambah -->
 
-                      <div class="hasil-data"></div>  
+<!-- begin:: modal ubah -->
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="smallModalLabel">Ubah Lokasi Penanaman</h4>
+            </div>
+            <div class="modal-body">
+                <div class="hasil-data"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end:: modal ubah -->
 
-                  </div>
-              </div>
-          </div>
-      </div>
 <!-- begin:: foot -->
 <?php include_once 'atribut/foot.php'; ?>
 <!-- end:: foot -->
 
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script src="assets/js/vendors.js"></script>
+
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#editmodal').on('show.bs.modal', function (e){
+    $(document).ready(function() {
+        $('#editmodal').on('show.bs.modal', function(e) {
             var id_tanaman = $(e.relatedTarget).data('id');
 
-            $.ajax ({
-                type : 'get',
-                url : 'data_tanaman_ubah.php',
-                data : 'id_tanaman='+ id_tanaman,
-                success : function(data){
+            $.ajax({
+                type: 'get',
+                url: 'data_tanaman_ubah.php',
+                data: 'id_tanaman=' + id_tanaman,
+                success: function(data) {
                     $('.hasil-data').html(data);
                 }
             });
@@ -176,8 +150,7 @@
     });
 </script>
 
-<?php 
-
+<?php
 if (isset($_POST['tambah'])) {
     $id_alternative = $_POST['inp_idalternative'];
     $nama_tanaman = $_POST['inp_tan'];
@@ -190,9 +163,7 @@ if (isset($_POST['tambah'])) {
         alert('Berhasil')
         window.location=(href='data_tanaman.php')
         </script>";
-    }
-
-    else {
+    } else {
         echo "<script>
         alert('Gagal')
         window.location=(href='data_tanaman.php')
@@ -210,14 +181,11 @@ if (isset($_POST['tambah'])) {
         alert('Berhasil')
         window.location=(href='data_tanaman.php')
         </script>";
-    }
-
-    else {
+    } else {
         echo "<script>
         alert('Gagal')
         window.location=(href='data_tanaman.php')
         </script>";
     }
 }
-
 ?>

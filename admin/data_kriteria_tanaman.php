@@ -28,74 +28,58 @@
 
             </div>
             <section class="section">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-header">
+                <div class="card">
+                    <div class="card-header">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#smallModal">
-                                        <i class="material-icons">add</i>
-                                        <span>Tambah Data Tanaman</span>
-                                    </button> 
-                        </div>
-                        <div class="card-body">
-                        <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                             <th>No</th>
-                                             <th>Alternatif</th>
-                                             <th>Kriteria</th>
-                                             <th>Nilai</th>
-                                             <th>Aksi</th>
-                                         </tr>
-                                     </thead>
-                                     <tbody>
-                                        <?php
-
-                                        $no    = 1;
-                                        $sql   = "SELECT  tb_alternatif.`name`, tb_kriteria.criteria, tb_kriteria.id_criteria, tb_evaluasi.`value`, tb_evaluasi.id_alternative FROM tb_evaluasi
-                                        INNER JOIN tb_alternatif ON tb_evaluasi.id_alternative = tb_alternatif.id_alternative
-                                        INNER JOIN tb_kriteria ON tb_evaluasi.id_criteria = tb_kriteria.id_criteria ORDER BY tb_evaluasi.id_alternative ASC,tb_evaluasi.id_criteria ASC";
-                                        $query = $connect->query($sql);
-                                        while ($row = $query->fetch_array(MYSQLI_ASSOC)) {
-
-                                            echo "<tr>";
-                                            echo "<td>".$no++."</td>";
-                                            echo "<td>".$row['name']."</td>";
-                                            echo "<td>".$row['criteria']."</td>";
-                                            echo "<td>".$row['value']."</td>";
-                                            echo "<td>
+                            <i data-feather="plus"></i>&nbsp;Tambah Data Tanaman
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class='table table-striped' id="table1">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Alternatif</th>
+                                    <th>Kriteria</th>
+                                    <th>Nilai</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no    = 1;
+                                $sql   = "SELECT  tb_alternatif.`name`, tb_kriteria.criteria, tb_kriteria.id_criteria, tb_evaluasi.`value`, tb_evaluasi.id_alternative FROM tb_evaluasi INNER JOIN tb_alternatif ON tb_evaluasi.id_alternative = tb_alternatif.id_alternative INNER JOIN tb_kriteria ON tb_evaluasi.id_criteria = tb_kriteria.id_criteria ORDER BY tb_evaluasi.id_alternative ASC,tb_evaluasi.id_criteria ASC";
+                                $query = $connect->query($sql);
+                                while ($row = $query->fetch_array(MYSQLI_ASSOC)) { ?>
+                                    <tr>
+                                        <td><?= $no++  ?></td>
+                                        <td><?= $row['name'] ?></td>
+                                        <td><?= $row['criteria'] ?></td>
+                                        <td><?= $row['value'] ?></td>
+                                        <td>
                                             <div class='btn-group btn-group-sm' role='group' aria-label='Small button group'>
-                                            <a href='data_kriteria_tanaman_ubah.php?id_alternatif=".$row['id_alternative']."&id_kriteria=".$row['id_criteria']."' class='btn btn-primary waves-effect'><i class='material-icons'>edit</i>Ubah</a>
+                                                <a href="data_kriteria_tanaman_ubah.php?id_alternatif=<?= $row['id_alternative'] ?>&id_kriteria=<?= $row['id_criteria'] ?>" class='btn btn-primary waves-effect'>
+                                                    <i data-feather="edit"></i>&nbsp;Ubah
+                                                </a>
                                             </div>
-                                            </td>";
-                                            echo "</tr>";
+                                        </td>
+                                    </tr>
 
-                                        }
-
-                                        ?>
-
-                                    </tbody>
-                                </table>
-                        </div>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
-
         </div>
 
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-left">
-                    <p>2020 &copy; Voler</p>
-                </div>
-                <div class="float-right">
-                    <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a
-                            href="http://ahmadsaugi.com">Ahmad Saugi</a></p>
-                </div>
-            </div>
-        </footer>
+        <!-- begin:: footer -->
+        <?php include_once 'atribut/footer.php'; ?>
+        <!-- end:: footer -->
     </div>
 </div>
 
+<!-- begin:: modal tambah -->
 <div class="modal fade" id="smallModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -113,9 +97,10 @@
                                 $tanaman = $connect->query($sql);
 
                                 while ($row = $tanaman->fetch_array(MYSQLI_ASSOC)) {
-                                    ?>
-                                    <option value="<?php echo $row['id_alternative'] ?>"><?php echo $row['name']; ?></option>
-                                    <?php
+                                ?>
+                                    <option value="<?php echo $row['id_alternative'] ?>"><?php echo $row['name']; ?>
+                                    </option>
+                                <?php
 
                                 }
                                 ?>
@@ -179,23 +164,27 @@
                     </div>
                     <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">TUTUP</button>
                     <input type="submit" name="tambah" value="TAMBAH" class="btn btn-link waves-effect">
-                </div>
+            </div>
             </form>
         </div>
     </div>
 </div>
+<!-- end:: modal tambah -->
+
 <!-- begin:: foot -->
 <?php include_once 'atribut/foot.php'; ?>
 <!-- end:: foot -->
 
-<?php 
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script src="assets/js/vendors.js"></script>
 
+<?php
 if (isset($_POST['tambah'])) {
     $nama_tanaman = $_POST['nm_tanaman'];
     $kriteria = $_POST['kriteria'];
     $value = $_POST['value'];
 
-    for ($i=0; $i < count($kriteria); $i++) { 
+    for ($i = 0; $i < count($kriteria); $i++) {
         $query  = "INSERT INTO tb_evaluasi (id_alternative, id_criteria, value) VALUES ('$nama_tanaman','$kriteria[$i]','$value[$i]')";
         $result = $connect->query($query);
     }
@@ -205,14 +194,11 @@ if (isset($_POST['tambah'])) {
         alert('Berhasil')
         window.location=(href='data_kriteria_tanaman.php')
         </script>";
-    }
-
-    else {
+    } else {
         echo "<script>
         alert('Gagal')
         window.location=(href='data_kriteria_tanaman.php')
         </script>";
     }
 }
-
 ?>

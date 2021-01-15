@@ -1,45 +1,33 @@
+<!-- begin:: head -->
 <?php include_once 'atribut/head.php'; ?>
+<!-- end:: head -->
 
-<!-- Page Loader -->
-<div class="page-loader-wrapper">
-    <div class="loader">
-        <div class="preloader">
-            <div class="spinner-layer pl-red">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
+<div id="app">
+    <!-- begin:: sidebar -->
+    <?php include_once 'atribut/sidebar.php'; ?>
+    <!-- end:: sidebar -->
+    <div id="main">
+        <!-- begin:: navbar -->
+        <?php include_once 'atribut/navbar.php'; ?>
+        <!-- end:: navbar -->
+        <div class="main-content container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <h3 class="card-title">Data Lokasi Penanaman</h3>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <nav aria-label="breadcrumb" class='breadcrumb-header text-right'>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Breadcrumb</li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
             </div>
-        </div>
-        <p>Please wait...</p>
-    </div>
-</div>
-<!-- #END# Page Loader -->
-<!-- Overlay For Sidebars -->
-<div class="overlay"></div>
-<!-- #END# Overlay For Sidebars -->
-<!-- Search Bar -->
-<div class="search-bar">
-    <div class="search-icon">
-        <i class="material-icons">search</i>
-    </div>
-    <input type="text" placeholder="START TYPING...">
-    <div class="close-search">
-        <i class="material-icons">close</i>
-    </div>
-</div>
-
-<!-- Untuk Menu -->
-<?php include_once 'atribut/menu.php'; ?>
-
-    <section class="content">
-        <div class="container-fluid">
-
-            <!-- Body Copy -->
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <section class="section">
+                <div class="row">
                     <div class="card">
                         <div class="header">
                             <h2>
@@ -51,7 +39,8 @@
                                 <div class="row clearfix">
                                     <div class="col-sm-6">
                                         <label>Nama Lokasi</label>
-                                        <input type="hidden" name="kriteria" value="<?php echo $id_criteria ?>" readonly="readonly">
+                                        <input type="hidden" name="kriteria" value="<?php echo $id_criteria ?>"
+                                            readonly="readonly">
                                         <div class="form-group form-float">
                                             <div class="form-line">
                                                 <select class="form-control show-tick" name="nm_lokasi">
@@ -60,9 +49,10 @@
                                                     $sql = "SELECT * FROM tb_lokasi";
                                                     $tanaman = $connect->query($sql);
                                                     while ($row = $tanaman->fetch_array(MYSQLI_ASSOC)) {
-                                                        ?>
-                                                        <option value="<?php echo $row['id_lokasi'] ?>"><?php echo $row['nama_lokasi']; ?></option>
-                                                        <?php
+                                                    ?>
+                                                    <option value="<?php echo $row['id_lokasi'] ?>">
+                                                        <?php echo $row['nama_lokasi']; ?></option>
+                                                    <?php
 
                                                     }
                                                     ?>
@@ -82,7 +72,8 @@
                                                     $row      = $query->fetch_array(MYSQLI_ASSOC);
                                                     $kriteria = json_decode($row['bulan'], true);
                                                     for ($i = 0; $i < count($kriteria); $i++) { ?>
-                                                        <option value="<?= $kriteria[$i]['id_bulan'] ?>"><?= $kriteria[$i]['bulan'] ?></option>
+                                                    <option value="<?= $kriteria[$i]['id_bulan'] ?>">
+                                                        <?= $kriteria[$i]['bulan'] ?></option>
                                                     <?php } ?>
 
                                                 </select>
@@ -95,8 +86,39 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </section>
 
+        <footer>
+            <div class="footer clearfix mb-0 text-muted">
+                <div class="float-left">
+                    <p>2020 &copy; Voler</p>
+                </div>
+                <div class="float-right">
+                    <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a href="http://ahmadsaugi.com">Ahmad Saugi</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!-- begin:: foot -->
 <?php include_once 'atribut/foot.php'; ?>
+<!-- end:: foot -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#editmodal').on('show.bs.modal', function (e) {
+            var id_lokasi = $(e.relatedTarget).data('id');
+
+            $.ajax({
+                type: 'get',
+                url: 'data_lokasi_ubah.php',
+                data: 'id_lokasi=' + id_lokasi,
+                success: function (data) {
+                    $('.hasil-data').html(data);
+                }
+            });
+        });
+    });
+</script>
