@@ -18,62 +18,62 @@ $result3 = $connect->query($sql3);
 
 $id_lokasi = $_POST['nm_lokasi'];
 
-if (isset($_POST['proses'])) {
-  $id_bulan = $_POST['id_bulan'];
-  $bulan1   = date($id_bulan);
-  $bulan2   = date($id_bulan) + 1;
-  $bulan3   = date($id_bulan) + 2;
+// if (isset($_POST['proses'])) {
+//   $id_bulan = $_POST['id_bulan'];
+//   $bulan1   = date($id_bulan);
+//   $bulan2   = date($id_bulan) + 1;
+//   $bulan3   = date($id_bulan) + 2;
 
-  $sql      = "SELECT * FROM tb_kriteria WHERE id_criteria = '2'";
-  $query    = $connect->query($sql);
-  $row      = $query->fetch_array(MYSQLI_ASSOC);
-  $kriteria = json_decode($row['bulan'], true);
+//   $sql      = "SELECT * FROM tb_kriteria WHERE id_criteria = '2'";
+//   $query    = $connect->query($sql);
+//   $row      = $query->fetch_array(MYSQLI_ASSOC);
+//   $kriteria = json_decode($row['bulan'], true);
 
-  for ($i = 0; $i < count($kriteria); $i++) {
-    if ($kriteria[$i]['id_bulan'] == $bulan1) {
-      if ($id_bulan == 12) {
-        $data_bulan = array(
-          $bulan1 => $kriteria[$i]['value'],
-          $bulan2 => $kriteria[1]['value'],
-          $bulan3 => $kriteria[2]['value']
-        );
-      } else {
-        $data_bulan = array(
-          $bulan1 => $kriteria[$i]['value'],
-          $bulan2 => $kriteria[$i+1]['value'],
-          $bulan3 => $kriteria[$i+2]['value']
-        );
-      }
-    }
-  }
+//   for ($i = 0; $i < count($kriteria); $i++) {
+//     if ($kriteria[$i]['id_bulan'] == $bulan1) {
+//       if ($id_bulan == 12) {
+//         $data_bulan = array(
+//           $bulan1 => $kriteria[$i]['value'],
+//           $bulan2 => $kriteria[1]['value'],
+//           $bulan3 => $kriteria[2]['value']
+//         );
+//       } else {
+//         $data_bulan = array(
+//           $bulan1 => $kriteria[$i]['value'],
+//           $bulan2 => $kriteria[$i+1]['value'],
+//           $bulan3 => $kriteria[$i+2]['value']
+//         );
+//       }
+//     }
+//   }
 
-  $hitung = array_sum($data_bulan) / 3;
+//   $hitung = array_sum($data_bulan) / 3;
 
-  if ($hitung >= 300 && $hitung <= 400) {
-    $hasil = 3;
-    $ket = "Tinggi (300-400 mm/bulan)";
-  } else if ($hitung >= 200 && $hitung <= 300) {
-    $hasil = 2;
-    $ket = "Menengah (200-300 mm/bulan)";
-  } else if ($hitung >= 100 && $hitung <= 200) {
-    $hasil = 1;
-    $ket = "Rendah (100-200 mm/bulan)";
-  }
+//   if ($hitung >= 300 && $hitung <= 400) {
+//     $hasil = 3;
+//     $ket = "Tinggi (300-400 mm/bulan)";
+//   } else if ($hitung >= 200 && $hitung <= 300) {
+//     $hasil = 2;
+//     $ket = "Menengah (200-300 mm/bulan)";
+//   } else if ($hitung >= 100 && $hitung <= 200) {
+//     $hasil = 1;
+//     $ket = "Rendah (100-200 mm/bulan)";
+//   }
 
-  $query4   = $connect->query("SELECT * FROM tb_kriteria_lokasi WHERE id_lokasi = '$id_lokasi'");
-  $row      = $query4->fetch_array(MYSQLI_ASSOC);
-  $kriteria = json_decode($row['kriteria'], true);
+//   $query4   = $connect->query("SELECT * FROM tb_kriteria_lokasi WHERE id_lokasi = '$id_lokasi'");
+//   $row      = $query4->fetch_array(MYSQLI_ASSOC);
+//   $kriteria = json_decode($row['kriteria'], true);
 
-  $array_kriteria = array(
-    ['id_kriteria' => $kriteria[0]['id_kriteria'], 'kriteria' => $kriteria[0]['kriteria'], 'weight' => $kriteria[0]['weight']],
-    ['id_kriteria' => $kriteria[1]['id_kriteria'], 'kriteria' => $kriteria[1]['kriteria'], 'weight' => $hasil, 'data_bulan' => $data_bulan, 'ket' => $ket],
-    ['id_kriteria' => $kriteria[2]['id_kriteria'], 'kriteria' => $kriteria[2]['kriteria'], 'weight' => $kriteria[2]['weight']],
-    ['id_kriteria' => $kriteria[3]['id_kriteria'], 'kriteria' => $kriteria[3]['kriteria'], 'weight' => $kriteria[3]['weight']],
-    ['id_kriteria' => $kriteria[4]['id_kriteria'], 'kriteria' => $kriteria[4]['kriteria'], 'weight' => $kriteria[4]['weight']],
-  );
-  $data_kriteria = json_encode($array_kriteria);
-  $connect->query("UPDATE tb_kriteria_lokasi SET kriteria = '$data_kriteria' WHERE id_lokasi = '$id_lokasi'");
-}
+//   $array_kriteria = array(
+//     ['id_kriteria' => $kriteria[0]['id_kriteria'], 'kriteria' => $kriteria[0]['kriteria'], 'weight' => $kriteria[0]['weight']],
+//     ['id_kriteria' => $kriteria[1]['id_kriteria'], 'kriteria' => $kriteria[1]['kriteria'], 'weight' => $hasil, 'data_bulan' => $data_bulan, 'ket' => $ket],
+//     ['id_kriteria' => $kriteria[2]['id_kriteria'], 'kriteria' => $kriteria[2]['kriteria'], 'weight' => $kriteria[2]['weight']],
+//     ['id_kriteria' => $kriteria[3]['id_kriteria'], 'kriteria' => $kriteria[3]['kriteria'], 'weight' => $kriteria[3]['weight']],
+//     ['id_kriteria' => $kriteria[4]['id_kriteria'], 'kriteria' => $kriteria[4]['kriteria'], 'weight' => $kriteria[4]['weight']],
+//   );
+//   $data_kriteria = json_encode($array_kriteria);
+//   $connect->query("UPDATE tb_kriteria_lokasi SET kriteria = '$data_kriteria' WHERE id_lokasi = '$id_lokasi'");
+// }
 ?>
 
 <!-- Page Loader -->
