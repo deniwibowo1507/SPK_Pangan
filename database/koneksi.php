@@ -2,7 +2,7 @@
 $dbhost = 'localhost'; 
 $dbuser = 'my_root';
 $dbpass = 'my_pass';
-$dbname = 'spk_pangan';
+$dbname = 'spk_pangan_ele_vik';
 
 $connect = new mysqli($dbhost,$dbuser,$dbpass,$dbname);
 
