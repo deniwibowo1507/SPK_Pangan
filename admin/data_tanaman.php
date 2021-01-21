@@ -29,40 +29,42 @@
             <section class="section">
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#smallModal">
-                            <i data-feather="plus"></i>&nbsp;Tambah Tanaman
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#smallModal">
+                            <i data-feather="plus"></i>
                         </button>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Tanaman</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $no    = 1;
-                                $sql   = "SELECT * FROM tb_alternatif";
-                                $query = $connect->query($sql);
-                                while ($row = $query->fetch_array()) { ?>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                                <thead>
                                     <tr>
-                                        <td><?= $no++ ?></td>
-                                        <td><?= $row['name'] ?></td>
-                                        <td>
-                                            <a href="#editmodal" class="btn btn-primary waves-effect" data-toggle="modal" data-id="<?= $row['id_alternative'] ?>">
-                                                <i data-feather="edit"></i>&nbsp;Ubah
-                                            </a>
-                                            <a href="data_tanaman_hapus.php?id_tanaman=<?= $row['id_alternative'] ?>" class="btn btn-danger waves-effect">
-                                                <i data-feather="delete"></i>&nbsp;Hapus
-                                            </a>
-                                        </td>
+                                        <th>No</th>
+                                        <th>Nama Tanaman</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no    = 1;
+                                    $sql   = "SELECT * FROM tb_alternatif";
+                                    $query = $connect->query($sql);
+                                    while ($row = $query->fetch_array()) { ?>
+                                        <tr>
+                                            <td><?= $no++ ?></td>
+                                            <td><?= $row['name'] ?></td>
+                                            <td>
+                                                <a href="#editmodal" class="btn btn-modifikasi btn-primary waves-effect" data-toggle="modal" data-id="<?= $row['id_alternative'] ?>">
+                                                    <i data-feather="edit"></i>
+                                                </a>
+                                                <a href="data_tanaman_hapus.php?id_tanaman=<?= $row['id_alternative'] ?>" class="btn btn-modifikasi btn-danger waves-effect">
+                                                    <i data-feather="delete"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -102,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">TAMBAH</button>
+                    <button type="submit" name="tambah" class="btn btn-success">TAMBAH</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">TUTUP</button>
                 </form>
             </div>

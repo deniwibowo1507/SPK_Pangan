@@ -31,33 +31,35 @@
                     <div class="card-header">
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Kriteria</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $no    = 1;
-                                $sql   = "SELECT * FROM tb_kriteria";
-                                $query = $connect->query($sql);
-
-                                while ($row = $query->fetch_array()) { ?>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                                <thead>
                                     <tr>
-                                        <td><?= $no++ ?></td>
-                                        <td><?= $row['criteria'] ?></td>
-                                        <td>
-                                            <a href="data_kriteria_ubah.php?id_kriteria=<?= $row[' id_criteria'] ?>" class="btn btn-primary">
-                                                <i data-feather="edit"></i>&nbsp;Ubah
-                                            </a>
-                                        </td>
+                                        <th>No</th>
+                                        <th>Nama Kriteria</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no    = 1;
+                                    $sql   = "SELECT * FROM tb_kriteria";
+                                    $query = $connect->query($sql);
+
+                                    while ($row = $query->fetch_array()) { ?>
+                                        <tr>
+                                            <td><?= $no++ ?></td>
+                                            <td><?= $row['criteria'] ?></td>
+                                            <td>
+                                                <a href="data_kriteria_ubah.php?id_kriteria=<?= $row[' id_criteria'] ?>" class="btn btn-modifikasi btn-primary">
+                                                    <i data-feather="edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>

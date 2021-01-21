@@ -69,6 +69,13 @@
  * 5. Utilities
  * 6. Responsive
  */
+
+ /* untuk btn modifikasi */
+.btn-modifikasi {
+  width: 100%;
+  margin: 5px;
+}
+
 .color-primary {
   color: #5A8DEE;
 }

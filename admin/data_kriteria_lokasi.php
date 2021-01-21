@@ -29,94 +29,94 @@
             <section class="section">
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#smallModal">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#smallModal">
                             <i data-feather="plus" width="20"></i>
-                            <span>Tambah Data Lokasi</span>
                         </button>
                     </div>
                     <div class="card-body">
-                        <table class='table table-striped' id="table1">
-                            <thead>
-                                <tr>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Lokasi Lokasi</th>
-                                    <?php
-                                    $sql      = "SELECT * FROM tb_kriteria_lokasi";
-                                    $query    = $connect->query($sql);
-                                    $result   = $query->fetch_array();
-                                    $kriteria = json_decode($result['kriteria'], true);
-                                    ?>
-                                    <th><?= $kriteria[0]['kriteria'] ?></th>
-                                    <th><?= $kriteria[2]['kriteria'] ?></th>
-                                    <th><?= $kriteria[3]['kriteria'] ?></th>
-                                    <th><?= $kriteria[4]['kriteria'] ?></th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <?php
-                                $no = 1;
-                                $sql1 = "SELECT a.id_lokasi, b.nama_lokasi, a.kriteria FROM tb_kriteria_lokasi AS a INNER JOIN tb_lokasi AS b ON b.id_lokasi = a.id_lokasi";
-                                $query = $connect->query($sql1);
-                                while ($row = $query->fetch_array()) {
-                                    $kriteria = json_decode($row['kriteria'], true); ?>
+                        <div class="table-responsive">
+                            <table class='table table-striped' id="table1">
+                                <thead>
                                     <tr>
-                                        <td><?= $no++ ?></td>
-                                        <td><?= $row['nama_lokasi'] ?></td>
-                                        <td>
-                                            <?php
-                                            if ($kriteria[0]['weight'] == 4) {
-                                                echo "Latosol";
-                                            } else if ($kriteria[0]['weight'] == 3) {
-                                                echo "Organosol";
-                                            } else if ($kriteria[0]['weight'] == 2) {
-                                                echo "Podzolik";
-                                            } else if ($kriteria[0]['weight'] == 1) {
-                                                echo "Litosol";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php
-                                            if ($kriteria[2]['weight'] == 2) {
-                                                echo "Ada";
-                                            } else if ($kriteria[2]['weight'] == 1) {
-                                                echo "Tidak Ada";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php
-                                            if ($kriteria[3]['weight'] == 4) {
-                                                echo "Basa Sedang (7,5 - 8,5)";
-                                            } else if ($kriteria[3]['weight'] == 3) {
-                                                echo "Netral (7,0 - 7,5)";
-                                            } else if ($kriteria[3]['weight'] == 2) {
-                                                echo "Asam Sedang (4,0 - 6,9)";
-                                            } else if ($kriteria[3]['weight'] == 1) {
-                                                echo "Sangat Asam (< 4)";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php
-                                            if ($kriteria[4]['weight'] == 2) {
-                                                echo "Dataran Tinggi (500 - 1500 mdpl)";
-                                            } else if ($kriteria[4]['weight'] == 1) {
-                                                echo "Dataran Rendah (0 - 500 mdpl)";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="#editmodal" class="btn btn-primary" data-toggle='modal' data-id="<?= $row['id_lokasi'] ?>"><i data-feather="edit"></i>&nbsp;Ubah</a>
-                                            <a href="data_kriteria_lokasi_hapus.php?id_lokasi=<?= $row['id_lokasi'] ?>" class="btn btn-danger waves-effect"><i data-feather="delete"></i>&nbsp;Hapus</a>
-                                        </td>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Lokasi Lokasi</th>
+                                        <?php
+                                        $sql      = "SELECT * FROM tb_kriteria_lokasi";
+                                        $query    = $connect->query($sql);
+                                        $result   = $query->fetch_array();
+                                        $kriteria = json_decode($result['kriteria'], true);
+                                        ?>
+                                        <th><?= $kriteria[0]['kriteria'] ?></th>
+                                        <th><?= $kriteria[2]['kriteria'] ?></th>
+                                        <th><?= $kriteria[3]['kriteria'] ?></th>
+                                        <th><?= $kriteria[4]['kriteria'] ?></th>
+                                        <th>Aksi</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no = 1;
+                                    $sql1 = "SELECT a.id_lokasi, b.nama_lokasi, a.kriteria FROM tb_kriteria_lokasi AS a INNER JOIN tb_lokasi AS b ON b.id_lokasi = a.id_lokasi";
+                                    $query = $connect->query($sql1);
+                                    while ($row = $query->fetch_array()) {
+                                        $kriteria = json_decode($row['kriteria'], true); ?>
+                                        <tr>
+                                            <td><?= $no++ ?></td>
+                                            <td><?= $row['nama_lokasi'] ?></td>
+                                            <td>
+                                                <?php
+                                                if ($kriteria[0]['weight'] == 4) {
+                                                    echo "Latosol";
+                                                } else if ($kriteria[0]['weight'] == 3) {
+                                                    echo "Organosol";
+                                                } else if ($kriteria[0]['weight'] == 2) {
+                                                    echo "Podzolik";
+                                                } else if ($kriteria[0]['weight'] == 1) {
+                                                    echo "Litosol";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($kriteria[2]['weight'] == 2) {
+                                                    echo "Ada";
+                                                } else if ($kriteria[2]['weight'] == 1) {
+                                                    echo "Tidak Ada";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($kriteria[3]['weight'] == 4) {
+                                                    echo "Basa Sedang (7,5 - 8,5)";
+                                                } else if ($kriteria[3]['weight'] == 3) {
+                                                    echo "Netral (7,0 - 7,5)";
+                                                } else if ($kriteria[3]['weight'] == 2) {
+                                                    echo "Asam Sedang (4,0 - 6,9)";
+                                                } else if ($kriteria[3]['weight'] == 1) {
+                                                    echo "Sangat Asam (< 4)";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($kriteria[4]['weight'] == 2) {
+                                                    echo "Dataran Tinggi (500 - 1500 mdpl)";
+                                                } else if ($kriteria[4]['weight'] == 1) {
+                                                    echo "Dataran Rendah (0 - 500 mdpl)";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="#editmodal" class="btn btn-modifikasi btn-primary" data-toggle='modal' data-id="<?= $row['id_lokasi'] ?>"><i data-feather="edit"></i></a>
+                                                <a href="data_kriteria_lokasi_hapus.php?id_lokasi=<?= $row['id_lokasi'] ?>" class="btn btn-modifikasi btn-danger waves-effect"><i data-feather="delete"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>

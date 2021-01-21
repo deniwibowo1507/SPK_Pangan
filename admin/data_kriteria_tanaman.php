@@ -30,44 +30,43 @@
             <section class="section">
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#smallModal">
-                            <i data-feather="plus"></i>&nbsp;Tambah Data Tanaman
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#smallModal">
+                            <i data-feather="plus"></i>
                         </button>
                     </div>
                     <div class="card-body">
-                        <table class='table table-striped' id="table1">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Alternatif</th>
-                                    <th>Kriteria</th>
-                                    <th>Nilai</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $no    = 1;
-                                $sql   = "SELECT  tb_alternatif.`name`, tb_kriteria.criteria, tb_kriteria.id_criteria, tb_evaluasi.`value`, tb_evaluasi.id_alternative FROM tb_evaluasi INNER JOIN tb_alternatif ON tb_evaluasi.id_alternative = tb_alternatif.id_alternative INNER JOIN tb_kriteria ON tb_evaluasi.id_criteria = tb_kriteria.id_criteria ORDER BY tb_evaluasi.id_alternative ASC,tb_evaluasi.id_criteria ASC";
-                                $query = $connect->query($sql);
-                                while ($row = $query->fetch_array(MYSQLI_ASSOC)) { ?>
+                        <div class="table-responsive">
+                            <table class='table table-striped' id="table1">
+                                <thead>
                                     <tr>
-                                        <td><?= $no++  ?></td>
-                                        <td><?= $row['name'] ?></td>
-                                        <td><?= $row['criteria'] ?></td>
-                                        <td><?= $row['value'] ?></td>
-                                        <td>
-                                            <div class='btn-group btn-group-sm' role='group' aria-label='Small button group'>
-                                                <a href="data_kriteria_tanaman_ubah.php?id_alternatif=<?= $row['id_alternative'] ?>&id_kriteria=<?= $row['id_criteria'] ?>" class='btn btn-primary waves-effect'>
-                                                    <i data-feather="edit"></i>&nbsp;Ubah
-                                                </a>
-                                            </div>
-                                        </td>
+                                        <th>No</th>
+                                        <th>Alternatif</th>
+                                        <th>Kriteria</th>
+                                        <th>Nilai</th>
+                                        <th>Aksi</th>
                                     </tr>
-
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no    = 1;
+                                    $sql   = "SELECT  tb_alternatif.`name`, tb_kriteria.criteria, tb_kriteria.id_criteria, tb_evaluasi.`value`, tb_evaluasi.id_alternative FROM tb_evaluasi INNER JOIN tb_alternatif ON tb_evaluasi.id_alternative = tb_alternatif.id_alternative INNER JOIN tb_kriteria ON tb_evaluasi.id_criteria = tb_kriteria.id_criteria ORDER BY tb_evaluasi.id_alternative ASC,tb_evaluasi.id_criteria ASC";
+                                    $query = $connect->query($sql);
+                                    while ($row = $query->fetch_array(MYSQLI_ASSOC)) { ?>
+                                        <tr>
+                                            <td><?= $no++  ?></td>
+                                            <td><?= $row['name'] ?></td>
+                                            <td><?= $row['criteria'] ?></td>
+                                            <td><?= $row['value'] ?></td>
+                                            <td>
+                                                <a href="data_kriteria_tanaman_ubah.php?id_alternatif=<?= $row['id_alternative'] ?>&id_kriteria=<?= $row['id_criteria'] ?>" class='btn btn-modifikasi btn-primary'>
+                                                    <i data-feather="edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -98,19 +97,15 @@
 
                                 while ($row = $tanaman->fetch_array(MYSQLI_ASSOC)) {
                                 ?>
-                                    <option value="<?php echo $row['id_alternative'] ?>"><?php echo $row['name']; ?>
-                                    </option>
-                                <?php
-
-                                }
-                                ?>
+                                    <option value="<?php echo $row['id_alternative'] ?>"><?php echo $row['name']; ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
                     <div class="form-group form-float">
                         <div class="form-line">
-                            <input type="hidden" name="id_kriteria1" value="1" readonly="readonly">
-                            <select class="form-control show-tick" name="kriteria1">
+                            <input type="hidden" name="id_kriteria[]" value="1" readonly="readonly">
+                            <select name="kriteria[]" class="form-control show-tick">
                                 <option>Jenis Tanah</option>
                                 <option value="4">Latosol</option>
                                 <option value="3">Organosol</option>
@@ -121,8 +116,8 @@
                     </div>
                     <div class="form-group form-float">
                         <div class="form-line">
-                            <input type="hidden" name="id_kriteria2" value="2" readonly="readonly">
-                            <select name="kriteria2" class="form-control show-tick">
+                            <input type="hidden" name="id_kriteria[]" value="2" readonly="readonly">
+                            <select name="kriteria[]" class="form-control show-tick">
                                 <option>Curah Hujan</option>
                                 <option value="3">Tinggi (300-400 mm/bulan)</option>
                                 <option value="2">Menengah (200-300 mm/bulan)</option>
@@ -132,8 +127,8 @@
                     </div>
                     <div class="form-group form-float">
                         <div class="form-line">
-                            <input type="hidden" name="id_kriteria3" value="3" readonly="readonly">
-                            <select name="kriteria3" class="form-control show-tick">
+                            <input type="hidden" name="id_kriteria[]" value="3" readonly="readonly">
+                            <select name="kriteria[]" class="form-control show-tick">
                                 <option>Drainase</option>
                                 <option value="2">Ada</option>
                                 <option value="1">Tidak Ada</option>
@@ -142,8 +137,8 @@
                     </div>
                     <div class="form-group form-float">
                         <div class="form-line">
-                            <input type="hidden" name="id_kriteria4" value="4" readonly="readonly">
-                            <select name="kriteria4" class="form-control show-tick">
+                            <input type="hidden" name="id_kriteria[]" value="4" readonly="readonly">
+                            <select name="kriteria[]" class="form-control show-tick">
                                 <option>PH</option>
                                 <option value="4">Basa Sedang (7,5 - 8,5)</option>
                                 <option value="3">Netral (7,0 - 7,5)</option>
@@ -154,18 +149,18 @@
                     </div>
                     <div class="form-group form-float">
                         <div class="form-line">
-                            <input type="hidden" name="id_kriteria5" value="5" readonly="readonly">
-                            <select name="kriteria5" class="form-control show-tick">
+                            <input type="hidden" name="id_kriteria[]" value="5" readonly="readonly">
+                            <select name="kriteria[]" class="form-control show-tick">
                                 <option>Ketinggian Tempat</option>
                                 <option value="2">Dataran Tinggi (500 - 1500 mdpl)</option>
                                 <option value="1">Dataran Rendah (0 - 500 mdpl)</option>
                             </select>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">TUTUP</button>
-                    <input type="submit" name="tambah" value="TAMBAH" class="btn btn-link waves-effect">
+                    <button type="submit" name="tambah" class="btn btn-success">TAMBAH</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">TUTUP</button>
+                </form>
             </div>
-            </form>
         </div>
     </div>
 </div>
@@ -181,8 +176,8 @@
 <?php
 if (isset($_POST['tambah'])) {
     $nama_tanaman = $_POST['nm_tanaman'];
-    $kriteria = $_POST['kriteria'];
-    $value = $_POST['value'];
+    $kriteria     = $_POST['id_kriteria'];
+    $value        = $_POST['kriteria'];
 
     for ($i = 0; $i < count($kriteria); $i++) {
         $query  = "INSERT INTO tb_evaluasi (id_alternative, id_criteria, value) VALUES ('$nama_tanaman','$kriteria[$i]','$value[$i]')";

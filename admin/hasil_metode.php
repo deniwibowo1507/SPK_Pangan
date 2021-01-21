@@ -14,9 +14,10 @@ $namaKriteria = [];
 
 while ($row = $result1->fetch_array(MYSQLI_ASSOC)) {
   $kriteria[$row['id_criteria']] = array($row['criteria'], $row['tipe']);
-  $bobot[$row['id_criteria']] = $row['bobot'] / 100;
+  $bobot[$row['id_criteria']] = $row['bobot'];
   $namaKriteria[] = $row['criteria'];
 }
+$n = count($kriteria);
 
 // untuk alternatif
 $sql2       = "SELECT * FROM tb_alternatif";
@@ -29,18 +30,28 @@ while ($row = $result2->fetch_array(MYSQLI_ASSOC)) {
   // $alternatif[$row['id_alternative']] = array($row['name']);
 }
 
-// echo '<pre>';
-// print_r($alternatif);
-// die();
-
+// untuk evaluasi
 $sql3    = 'SELECT * FROM tb_evaluasi ORDER BY id_alternative, id_criteria';
 $result3 = $connect->query($sql3);
 $sample  = [];
+$X       = [];
+$alternative = '';
+$m = 0;
+
 foreach ($result3 as $row) {
+  // vikor
   if (!isset($sample[$row['id_alternative']])) {
     $sample[$row['id_alternative']] = array();
   }
   $sample[$row['id_alternative']][$row['id_criteria']] = $row['value'];
+
+  // electre
+  if ($row['id_alternative'] != $alternative) {
+    $X[$row['id_alternative']] = [];
+    $alternative = $row['id_alternative'];
+    ++$m;
+  }
+  $X[$row['id_alternative']][$row['id_criteria']] = $row['value'];
 }
 
 function get_Q($S, $R, $v = 0.5)
@@ -51,7 +62,7 @@ function get_Q($S, $R, $v = 0.5)
   $R_min  = min($R);
   $Q      = array();
   foreach ($R as $i => $r) {
-    $Q[$i] = $v * (($S[$i] - $S_min[$i]) / ($S_plus[$i] - $S_min[$i])) + (1 - $v) * (($R[$i] - $R_min[$i]) / ($R_plus[$i] - $R_min[$i]));
+    $Q[$i] = $v * (($S[$i] - $S_min) / ($S_plus - $S_min)) + (1 - $v) * (($R[$i] - $R_min) / ($R_plus - $R_min));
   }
   return $Q;
 }
@@ -118,43 +129,20 @@ function get_sQ($Q)
                             <thead>
                               <tr>
                                 <th>Alternatif</th>
-                                <?php foreach ($result3 as $key) { ?>
-                                  <th><?= $key['criteria'] ?></th>
+                                <?php foreach ($namaKriteria as $key => $value) { ?>
+                                  <th><?= $value ?></th>
                                 <?php } ?>
                               </tr>
                             </thead>
                             <tbody>
-                              <?php
-
-                              $sql = "SELECT COUNT(*) FROM tb_kriteria";
-                              $result = $connect->query($sql);
-                              $row = $result->fetch_row();
-                              $n = $row[0];
-                              $sql = "SELECT * FROM tb_evaluasi ORDER BY id_alternative, id_criteria";
-                              $result = $connect->query($sql);
-                              $X = array();
-                              $alternative = '';
-                              $m = 0;
-
-                              while ($row = $result->fetch_row()) {
-                                if ($row[0] != $alternative) {
-                                  $X[$row[0]] = array();
-                                  $alternative = $row[0];
-                                  ++$m;
-                                }
-                                $X[$row[0]][$row[1]] = $row[2];
-                              }
-
-                              foreach ($X as $key => $value) {
-                                echo "<tr>";
-                                echo "<td>" . $alternatif[$key][0] . "</td>";
-                                for ($i = 1; $i <= count($value); $i++) {
-                                  echo "<td>" . $value[$i] . "</td>";
-                                }
-                                echo "</tr>";
-                              }
-
-                              ?>
+                              <?php foreach ($X as $key => $value) { ?>
+                                <tr>
+                                  <td><?= $alternatif[$key] ?></td>
+                                  <?php for ($i = 1; $i <= count($value); $i++) { ?>
+                                    <td><?= $value[$i] ?></td>
+                                  <?php } ?>
+                                </tr>
+                              <?php } ?>
                             </tbody>
                           </table>
                         </div>
@@ -171,8 +159,8 @@ function get_sQ($Q)
                             <thead>
                               <tr>
                                 <th></th>
-                                <?php foreach ($result3 as $key) { ?>
-                                  <th><?= $key['criteria'] ?></th>
+                                <?php foreach ($namaKriteria as $key => $value) { ?>
+                                  <th><?= $value ?></th>
                                 <?php } ?>
                               </tr>
                             </thead>
@@ -223,13 +211,9 @@ function get_sQ($Q)
                           <table class="table table-striped" id="table1">
                             <thead>
                               <tr>
-                                <?php
-
-                                foreach ($result3 as $key) {
-                                  echo "<th>" . $key['criteria'] . "</th>";
-                                }
-
-                                ?>
+                                <?php foreach ($namaKriteria as $key => $value) { ?>
+                                  <th><?= $value ?></th>
+                                <?php } ?>
                               </tr>
                             </thead>
                             <tbody>
@@ -593,7 +577,7 @@ function get_sQ($Q)
 
                     <div class="card">
                       <div class="card-header" id="headingSebelas" data-toggle="collapse" data-target="#collapseSebelas" aria-expanded="false" aria-controls="collapseSebelas" role="button">
-                        <span class="collapsed collapse-title">Membentuk Matrik Concordance Dominan(F)</span>
+                        <span class="collapsed collapse-title">Membentuk Matrik Concordance Dominan (F)</span>
                       </div>
                       <div id="collapseSebelas" class="collapse pt-1" aria-labelledby="headingSebelas" data-parent="#cardAccordion">
                         <div class="card-body">
@@ -637,7 +621,7 @@ function get_sQ($Q)
 
                     <div class="card">
                       <div class="card-header" id="headingDuabelas" data-toggle="collapse" data-target="#collapseDuabelas" aria-expanded="false" aria-controls="collapseDuabelas" role="button">
-                        <span class="collapsed collapse-title">Membentuk Matrik Discordance Dominan(G)</span>
+                        <span class="collapsed collapse-title">Membentuk Matrik Discordance Dominan (G)</span>
                       </div>
                       <div id="collapseDuabelas" class="collapse pt-1" aria-labelledby="headingDuabelas" data-parent="#cardAccordion">
                         <div class="card-body">
@@ -681,7 +665,7 @@ function get_sQ($Q)
 
                     <div class="card">
                       <div class="card-header" id="headingTigabelas" data-toggle="collapse" data-target="#collapseTigabelas" aria-expanded="false" aria-controls="collapseTigabelas" role="button">
-                        <span class="collapsed collapse-title">Membentuk Matrik Agregasi Dominan(E)</span>
+                        <span class="collapsed collapse-title">Membentuk Matrik Agregasi Dominan (E)</span>
                       </div>
                       <div id="collapseTigabelas" class="collapse pt-1" aria-labelledby="headingTigabelas" data-parent="#cardAccordion">
                         <div class="card-body">
@@ -764,246 +748,253 @@ function get_sQ($Q)
                 <!-- end:: metode electre -->
                 <!-- begin:: metode vikor -->
                 <div class="tab-pane fade" id="vikor" role="tabpanel" aria-labelledby="vikor-tab">
-                  <div class="card">
-                    <div class="card-header">
-                      <h2>Matrik Keputusan</h2>
-                    </div>
-                    <div class="card-body">
-                      <table class="table table-striped" id="table1">
-                        <thead>
-                          <tr>
-                            <th>Alternatif</th>
-                            <?php
-                            foreach ($namaKriteria as $key => $value) { ?>
-                              <th><?= $value ?></th>
-                            <?php } ?>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php foreach ($sample as $id_altenatif => $kriteria) { ?>
-                            <tr>
-                              <td><?= $alternatif[$id_altenatif] ?></td>
-                              <?php foreach ($kriteria as $id_kriteria => $nilai) { ?>
-                                <td><?= $nilai ?></td>
+                  <div class="accordion" id="cardAccordion">
+                    <div class="card">
+                      <div class="card-header" id="headingSatu" data-toggle="collapse" data-target="#collapseSatu" aria-expanded="false" aria-controls="collapseSatu" role="button">
+                        <span class="collapsed collapse-title">Matrik Keputusan (F)</span>
+                      </div>
+                      <div id="collapseSatu" class="collapse pt-1" aria-labelledby="headingSatu" data-parent="#cardAccordion">
+                        <div class="card-body">
+                          <table class="table table-striped" id="table1">
+                            <thead>
+                              <tr>
+                                <th>Alternatif</th>
+                                <?php foreach ($namaKriteria as $key => $value) { ?>
+                                  <th><?= $value ?></th>
+                                <?php } ?>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php foreach ($sample as $id_altenatif => $kriteria) { ?>
+                                <tr>
+                                  <td><?= $alternatif[$id_altenatif] ?></td>
+                                  <?php foreach ($kriteria as $id_kriteria => $nilai) { ?>
+                                    <td><?= $nilai ?></td>
+                                  <?php } ?>
+                                </tr>
                               <?php } ?>
-                            </tr>
-                          <?php } ?>
-                        </tbody>
-                      </table>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  <?php
-                  $f_plus = $f_min = array();
-                  foreach ($sample as $id_altenatif => $kriteria) {
-                    foreach ($kriteria as $j => $nilai) {
-                      if (!isset($f_plus[$j])) {
-                        $f_plus[$j] = 0;
-                        $f_min[$j] = 9999999;
+                    <?php
+                    $f_plus = $f_min = array();
+                    foreach ($sample as $id_altenatif => $kriteria) {
+                      foreach ($kriteria as $j => $nilai) {
+                        if (!isset($f_plus[$j])) {
+                          $f_plus[$j] = 0;
+                          $f_min[$j] = 9999999;
+                        }
+                        $f_plus[$j] = ($f_plus[$j] < $nilai ? $nilai : $f_plus[$j]);
+                        $f_min[$j] = ($f_min[$j] > $nilai ? $nilai : $f_min[$j]);
                       }
-                      $f_plus[$j] = ($f_plus[$j] < $nilai ? $nilai : $f_plus[$j]);
-                      $f_min[$j] = ($f_min[$j] > $nilai ? $nilai : $f_min[$j]);
                     }
-                  }
-                  ?>
+                    ?>
 
-                  <div class="card">
-                    <div class="card-header">
-                      <h2>Matrik Normalisasi</h2>
-                    </div>
-                    <div class="card-body">
-                      <table class="table table-striped" id="table1">
-                        <thead>
-                          <tr>
-                            <th>Alternatif</th>
-                            <?php foreach ($namaKriteria as $key => $value) { ?>
-                              <th><?= $value ?></th>
-                            <?php } ?>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php
-                          $N = array();
-                          foreach ($sample as $i => $kriteria) {
-                            $N[$i] = array();
-                            foreach ($kriteria as $j => $nilai) {
-                              $N[$i][$j] = ($f_plus[$j] - $nilai) / ($f_plus[$j] - $f_min[$j]);
-                            }
-                          }
-                          ?>
+                    <div class="card">
+                      <div class="card-header" id="headingDua" data-toggle="collapse" data-target="#collapseDua" aria-expanded="false" aria-controls="collapseDua" role="button">
+                        <span class="collapsed collapse-title">Matrik Normalisasi (N)</span>
+                      </div>
+                      <div id="collapseDua" class="collapse pt-1" aria-labelledby="headingDua" data-parent="#cardAccordion">
+                        <div class="card-body">
+                          <table class="table table-striped" id="table1">
+                            <thead>
+                              <tr>
+                                <th>Alternatif</th>
+                                <?php foreach ($namaKriteria as $key => $value) { ?>
+                                  <th><?= $value ?></th>
+                                <?php } ?>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              $N = array();
+                              foreach ($sample as $i => $kriteria) {
+                                $N[$i] = array();
+                                foreach ($kriteria as $j => $nilai) {
+                                  $N[$i][$j] = ($f_plus[$j] - $nilai) / ($f_plus[$j] - $f_min[$j]);
+                                }
+                              }
+                              ?>
 
-                          <?php foreach ($alternatif as $key => $value) { ?>
-                            <tr>
-                              <td><?= $alternatif[$key] ?></td>
-                              <?php for ($i = 1; $i <= count($N[$key]); $i++) { ?>
-                                <td><?= $N[$key][$i] ?></td>
+                              <?php foreach ($alternatif as $key => $value) { ?>
+                                <tr>
+                                  <td><?= $alternatif[$key] ?></td>
+                                  <?php for ($i = 1; $i <= count($N[$key]); $i++) { ?>
+                                    <td><?= $N[$key][$i] ?></td>
+                                  <?php } ?>
+                                </tr>
                               <?php } ?>
-                            </tr>
-                          <?php } ?>
-                        </tbody>
-                      </table>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="card">
-                    <div class="card-header">
-                      <h2>Matrik Normalisasi Terbobot</h2>
-                    </div>
-                    <div class="card-body">
-                      <table class="table table-striped" id="table1">
-                        <thead>
-                          <tr>
-                            <th>Alternatif</th>
-                            <?php foreach ($namaKriteria as $key => $value) { ?>
-                              <th><?= $value ?></th>
-                            <?php } ?>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php
-                          $F_star = array();
-                          foreach ($N as $i => $kriteria) {
-                            $F_star[$i] = array();
-                            foreach ($kriteria as $j => $nilai) {
-                              $F_star[$i][$j] = $nilai * $bobot[$j];
-                            }
-                          }
-                          ?>
+                    <div class="card">
+                      <div class="card-header" id="headingTiga" data-toggle="collapse" data-target="#collapseTiga" aria-expanded="false" aria-controls="collapseTiga" role="button">
+                        <span class="collapsed collapse-title">Matrik Normalisasi Terbobot (F*)</span>
+                      </div>
+                      <div id="collapseTiga" class="collapse pt-1" aria-labelledby="headingTiga" data-parent="#cardAccordion">
+                        <div class="card-body">
+                          <table class="table table-striped" id="table1">
+                            <thead>
+                              <tr>
+                                <th>Alternatif</th>
+                                <?php foreach ($namaKriteria as $key => $value) { ?>
+                                  <th><?= $value ?></th>
+                                <?php } ?>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              $F_star = array();
+                              foreach ($N as $i => $kriteria) {
+                                $F_star[$i] = array();
+                                foreach ($kriteria as $j => $nilai) {
+                                  $F_star[$i][$j] = $nilai * $bobot[$j];
+                                }
+                              }
+                              ?>
 
-                          <?php foreach ($alternatif as $key => $value) { ?>
-                            <tr>
-                              <td><?= $alternatif[$key] ?></td>
-                              <?php for ($i = 1; $i <= count($F_star[$key]); $i++) { ?>
-                                <td><?= $F_star[$key][$i] ?></td>
+                              <?php foreach ($alternatif as $key => $value) { ?>
+                                <tr>
+                                  <td><?= $alternatif[$key] ?></td>
+                                  <?php for ($i = 1; $i <= count($F_star[$key]); $i++) { ?>
+                                    <td><?= $F_star[$key][$i] ?></td>
+                                  <?php } ?>
+                                </tr>
                               <?php } ?>
-                            </tr>
-                          <?php } ?>
-                        </tbody>
-                      </table>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="card">
-                    <div class="card-header">
-                      <h2>Utility Measure (S dan R)</h2>
+                    <div class="card">
+                      <div class="card-header" id="headingEmpat" data-toggle="collapse" data-target="#collapseEmpat" aria-expanded="false" aria-controls="collapseEmpat" role="button">
+                        <span class="collapsed collapse-title">Utility Measure (S & R)</span>
+                      </div>
+                      <div id="collapseEmpat" class="collapse pt-1" aria-labelledby="headingEmpat" data-parent="#cardAccordion">
+                        <div class="card-body">
+                          <table class="table table-striped" id="table1">
+                            <thead>
+                              <tr>
+                                <th>Alternatif</th>
+                                <th>S</th>
+                                <th>R</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              $S = $R = array();
+                              foreach ($F_star as $i => $kriteria) {
+                                $S[$i] = $R[$i] = 0;
+                                foreach ($kriteria as $j => $nilai) {
+                                  $S[$i] += $nilai;
+                                  $R[$i] = ($R[$i] < $nilai ? $nilai : $R[$i]);
+                                }
+                              }
+                              ?>
+
+                              <?php foreach ($alternatif as $key => $value) { ?>
+                                <tr>
+                                  <td><?= $alternatif[$key] ?></td>
+                                  <td><?= $S[$key] ?></td>
+                                  <td><?= $R[$key] ?></td>
+                                </tr>
+                              <?php } ?>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
-                    <div class="card-body">
-                      <table class="table table-striped" id="table1">
-                        <thead>
-                          <tr>
-                            <th>Alternatif</th>
-                            <th>S</th>
-                            <th>R</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php
-                          $S = $R = array();
-                          foreach ($F_star as $i => $kriteria) {
-                            $S[$i] = $R[$i] = 0;
-                            foreach ($kriteria as $j => $nilai) {
-                              $S[$i] += $nilai;
-                              $R[$i] = ($R[$i] < $nilai ? $nilai : $R[$i]);
-                            }
-                          }
-                          ?>
 
-                          <?php foreach ($alternatif as $key => $value) { ?>
-                            <tr>
-                              <td><?= $alternatif[$key] ?></td>
-                              <td><?= $S[$key] ?></td>
-                              <td><?= $R[$key] ?></td>
-                            </tr>
-                          <?php } ?>
-                        </tbody>
-                      </table>
+                    <div class="card">
+                      <div class="card-header" id="headingLima" data-toggle="collapse" data-target="#collapseLima" aria-expanded="false" aria-controls="collapseLima" role="button">
+                        <span class="collapsed collapse-title">Menghitung Nilai Indeks VIKOR (Q)</span>
+                      </div>
+                      <div id="collapseLima" class="collapse pt-1" aria-labelledby="headingLima" data-parent="#cardAccordion">
+                        <div class="card-body">
+                          <table class="table table-striped" id="table1">
+                            <thead>
+                              <tr>
+                                <th>S+</th>
+                                <th>S-</th>
+                                <th>R+</th>
+                                <th>R-</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><?= max($S) ?></td>
+                                <td><?= min($S) ?></td>
+                                <td><?= max($R) ?></td>
+                                <td><?= min($R) ?></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="card">
-                    <div class="card-header">
-                      <h2>Menghitung Nilai Indeks VIKOR (Q)</h2>
+                    <div class="card">
+                      <div class="card-header" id="headingEnam" data-toggle="collapse" data-target="#collapseEnam" aria-expanded="false" aria-controls="collapseEnam" role="button">
+                        <span class="collapsed collapse-title">Hasil</span>
+                      </div>
+                      <div id="collapseEnam" class="collapse pt-1" aria-labelledby="headingEnam" data-parent="#cardAccordion">
+                        <div class="card-body">
+                          <table class="table table-striped" id="table1">
+                            <thead>
+                              <tr>
+                                <th>Alternatif</th>
+                                <th>Nilai</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              $Q = get_Q($S, $R);
+                              foreach ($Q as $key => $value) : ?>
+                                <tr>
+                                  <td><?= $alternatif[$key] ?></td>
+                                  <td><?= $value ?></td>
+                                </tr>
+                              <?php endforeach; ?>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
-                    <div class="card-body">
-                      <table class="table table-striped" id="table1">
-                        <thead>
-                          <tr>
-                            <th>Alternatif</th>
-                            <th>S</th>
-                            <th>R</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php
-                          $Q = array();
-                          $v = array(0.4, 0.5, 0.6);
-                          $Q[$v[1]] = get_Q($S, $R);
-                          asort($Q[$v[1]]);
-                          $sQ = array();
-                          $sQ[$v[1]] = get_sQ($Q[$v[1]]);
 
-                          echo '<pre>';
-                          print_r($Q);
-                          ?>
-                        </tbody>
-                      </table>
-
-
-
-                      <?php
-                      $kondisi_1 = 0;
-                      $m = count($sample);
-                      $DQ = 1 / ($m - 1);
-                      if (($sQ[$v[1]][1][1] - $sQ[$v[1]][0][1]) >= $DQ) {
-                        $kondisi_1 = 1;
-                        echo 'kondisi 1 terpenuhi<br>';
-                      } else {
-                        echo 'kondisi 1 tidak terpenuhi<br>';
-                      }
-
-                      $kondisi_2 = 0;
-                      $Q[$v[0]] = get_Q($S, $R, $v[0]);
-                      asort($Q[$v[0]]);
-                      $sQ[$v[0]] = get_sQ($Q[$v[0]]);
-                      $Q[$v[2]] = get_Q($S, $R, $v[2]);
-                      asort($Q[$v[2]]);
-                      $sQ[$v[2]] = get_sQ($Q[$v[2]]);
-                      if (($sQ[$v[1]][0][1] == $sQ[$v[0]][0][1]) && ($sQ[$v[1]][0][1] == $sQ[$v[2]][0][1])) {
-                        $kondisi_2 = 1;
-                        echo 'kondisi 2 terpenuhi<br>';
-                      } else {
-                        echo 'kondisi 2 tidak terpenuhi<br>';
-                      }
-
-
-
-                      echo "Berdasarkan hasil pembuktian kedua kondisi dapat diketahui bahwa "
-                        . ($kondisi_1 == 1 ? ($kondisi_2 == 1 ? "kedua kondisi tersebut" : "kondisi dua tidak") : "kondisi satu tidak")
-                        . " terpenuhi.";
-                      if ($kondisi_1 == 1) {
-                        if ($kondisi_2 == 1) {
-                          echo "<b>{$alternatif[$sQ[$v[1]][0][0]]}</b> dapat diusulkan menjadi solusi kompromi "
-                            . "dan merupakan peringkat terbaik dari perankingan penerima beasiswa dengan metode VIKOR.";
-                        } else {
-                          echo "Sehingga <b>{$alternatif[$sQ[$v[1]][0][0]]}</b> dan <b>{$alternatif[$Q[$v[1]][1][0]]}</b> "
-                            . "dapat diusulkan menjadi solusi kompromi penerima beasiswa dengan metode VIKOR.";
-                        }
-                      } else {
-                        echo "Berdasarkan persamaan [<a href='#vik12'>VIK-12</a>] diperoleh nilai m={$m}, sehingga alternatif ";
-                        if ($m > 1) {
-                          echo "A<sub>1</sub>, ..., A<sub>{$m}; yaitu ";
-                          $nm = array();
-                          for ($i = 0; $i < $m; $i++) $nm[] = $alternatif[$sQ[$v[1]][$i][0]];
-                          $nm_a = array_pop($nm);
-                          echo "<b>" . implode(', ', $nm) . "</b> dan <b>{$nm_a}</b> ";
-                        } else {
-                          echo "A<sub>1</sub>; yaitu <b>{$alternatif[$sQ[$v[1]][0][0]]}</b> ";
-                        }
-                        echo "dapat diusulkan menjadi solusi kompromi penerima beasiswa dengan metode VIKOR.";
-                      }
-
-                      print_r($sQ);
-                      ?>
+                    <div class="card">
+                      <div class="card-header" id="headingTujuh" data-toggle="collapse" data-target="#collapseTujuh" aria-expanded="false" aria-controls="collapseTujuh" role="button">
+                        <span class="collapsed collapse-title">Perangkingan</span>
+                      </div>
+                      <div id="collapseTujuh" class="collapse pt-1" aria-labelledby="headingTujuh" data-parent="#cardAccordion">
+                        <div class="card-body">
+                          <table class="table table-striped" id="table1">
+                            <thead>
+                              <tr>
+                                <th>Alternatif</th>
+                                <th>Nilai</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              $Q = get_Q($S, $R);
+                              arsort($Q);
+                              foreach ($Q as $key => $value) : ?>
+                                <tr>
+                                  <td><?= $alternatif[$key] ?></td>
+                                  <td><?= $value ?></td>
+                                </tr>
+                              <?php endforeach; ?>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
