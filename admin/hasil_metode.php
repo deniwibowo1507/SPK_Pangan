@@ -7,6 +7,7 @@ error_reporting(0);
 
 // untuk kriteria
 $bobot = [];
+$criteria = [];
 
 if (isset($_POST['proses'])) {
   $id_lokasi = $_POST['nm_lokasi'];
@@ -14,13 +15,15 @@ if (isset($_POST['proses'])) {
   $row4      = $qry4->fetch_array(MYSQLI_ASSOC);
   $kriteria  = json_decode($row4['kriteria'], true);
 
-  $bobot = [
-    $kriteria[0]['id_kriteria'] => $kriteria[0]['weight'],
-    $kriteria[1]['id_kriteria'] => $kriteria[1]['weight'],
-    $kriteria[2]['id_kriteria'] => $kriteria[2]['weight'],
-    $kriteria[3]['id_kriteria'] => $kriteria[3]['weight'],
-    $kriteria[4]['id_kriteria'] => $kriteria[4]['weight'],
-  ];
+  // untuk criteria
+  for ($i = 0; $i < count($kriteria); $i++) {
+    $criteria[$kriteria[$i]['id_kriteria']] = $kriteria[$i]['weight'];
+  }
+
+  // untuk bobot
+  for ($j = 0; $j < count($kriteria); $j++) {
+    $bobot[$kriteria[$j]['id_kriteria']] = $kriteria[$j]['weight'];
+  }
 }
 
 $sql1         = "SELECT * FROM tb_kriteria";
@@ -237,27 +240,11 @@ function get_sQ($Q)
                                 </tr>
                               </thead>
                               <tbody>
-                                <?php
-
-                                // query untuk mengambil data nilai bobot criteria
-                                $sql = "SELECT kriteria FROM tb_kriteria_lokasi WHERE id_lokasi = '$id_lokasi'";
-                                $result = $connect->query($sql);
-
-                                $criteria = array();
-                                while ($row = $result->fetch_array()) {
-
-                                  $kriteria = json_decode($row['kriteria'], true);
-                                  for ($i = 0; $i < count($kriteria); $i++) {
-                                    $criteria[$kriteria[$i]['id_kriteria']] = $kriteria[$i]['weight'];
-                                  }
-                                }
-
-                                echo "<tr>";
-                                for ($i = 1; $i <= count($criteria); $i++) {
-                                  echo "<td>" . $criteria[$i] . "</td>";
-                                }
-                                echo "</tr>";
-                                ?>
+                                <tr>
+                                  <?php for ($i = 1; $i <= count($criteria); $i++) { ?>
+                                    <td><?= $criteria[$i] ?></td>
+                                  <?php } ?>
+                                </tr>
                               </tbody>
                             </table>
                           </div>
