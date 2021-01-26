@@ -107,6 +107,8 @@
                             <input type="hidden" name="id_kriteria[]" value="1" readonly="readonly">
                             <select name="kriteria[]" class="form-control show-tick">
                                 <option>Jenis Tanah</option>
+                                <option value="6">Regosol</option>
+                                <option value="5">Litosol</option>
                                 <option value="4">Latosol</option>
                                 <option value="3">Organosol</option>
                                 <option value="2">Podzolik</option>
@@ -154,6 +156,31 @@
                                 <option>Ketinggian Tempat</option>
                                 <option value="2">Dataran Tinggi (500 - 1500 mdpl)</option>
                                 <option value="1">Dataran Rendah (0 - 500 mdpl)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <input type="hidden" name="id_kriteria[]" value="6" readonly="readonly">
+                            <select name="kriteria[]" class="form-control show-tick">
+                                <option>Temperatur</option>
+                                <option value="4">26,3 C - 22 C</option>
+                                <option value="3">22 C - 17,1 C</option>
+                                <option value="2">17,1 C - 11,1 C</option>
+                                <option value="1">11,1 C - 6,2 C</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <input type="hidden" name="id_kriteria[]" value="7" readonly="readonly">
+                            <select name="kriteria[]" class="form-control show-tick">
+                                <option>Kedalaman Tanah</option>
+                                <option value="4">
+                                    < 20 cm</option>
+                                <option value="3">20 - 50 cm</option>
+                                <option value="2">50 - 75 cm</option>
+                                <option value="1">> 75 cm</option>
                             </select>
                         </div>
                     </div>

@@ -24,7 +24,7 @@ $kriteria = json_decode($row['kriteria'], true);
 					$lokasi = $connect->query($sql);
 
 					while ($row = $lokasi->fetch_array(MYSQLI_ASSOC)) {
-						?>
+					?>
 						<option value="<?php echo $row['id_lokasi'] ?>"><?php echo $row['nama_lokasi']; ?></option>
 					<?php }	?>
 				</select>
@@ -79,6 +79,32 @@ $kriteria = json_decode($row['kriteria'], true);
 					<option><?php echo $kriteria[4]['weight'] ?></option>
 					<option value="2">Dataran Tinggi (500 - 1500 mdpl)</option>
 					<option value="1">Dataran Rendah (0 - 500 mdpl)</option>
+				</select>
+			</div>
+		</div>
+		<label>Temperatur</label>
+		<div class="form-group form-float">
+			<div class="form-line">
+				<input type="hidden" name="id_kriteria6" value="6" readonly="readonly">
+				<select name="kriteria6" class="form-control show-tick">
+					<option><?php echo $kriteria[5]['weight'] ?></option>
+					<option value="4">26,3 C - 22 C</option>
+					<option value="3">22 C - 17,1 C</option>
+					<option value="2">17,1 C - 11,1 C</option>
+					<option value="1">11,1 C - 6,2 C</option>
+				</select>
+			</div>
+		</div>
+		<label>Kedalaman Tanah</label>
+		<div class="form-group form-float">
+			<div class="form-line">
+				<input type="hidden" name="id_kriteria7" value="7" readonly="readonly">
+				<select name="kriteria7" class="form-control show-tick">
+					<option><?php echo $kriteria[6]['weight'] ?></option>
+					<option value="4">< 20 cm</option>
+					<option value="3">20 - 50 cm</option>
+					<option value="2">50 - 75 cm</option>
+					<option value="1">> 75 cm</option>
 				</select>
 			</div>
 		</div>

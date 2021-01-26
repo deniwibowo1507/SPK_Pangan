@@ -51,7 +51,7 @@
                                             <td><?= $no++ ?></td>
                                             <td><?= $row['criteria'] ?></td>
                                             <td>
-                                                <a href="data_kriteria_ubah.php?id_kriteria=<?= $row[' id_criteria'] ?>" class="btn btn-modifikasi btn-primary">
+                                                <a href="data_kriteria_ubah.php?id_kriteria=<?= $row['id_criteria'] ?>" class="btn btn-modifikasi btn-primary">
                                                     <i data-feather="edit"></i>
                                                 </a>
                                             </td>

@@ -6,15 +6,30 @@
 error_reporting(0);
 
 // untuk kriteria
+$bobot = [];
+
+if (isset($_POST['proses'])) {
+  $id_lokasi = $_POST['nm_lokasi'];
+  $qry4      = $connect->query("SELECT * FROM tb_kriteria_lokasi WHERE id_lokasi = '$id_lokasi'");
+  $row4      = $qry4->fetch_array(MYSQLI_ASSOC);
+  $kriteria  = json_decode($row4['kriteria'], true);
+
+  $bobot = [
+    $kriteria[0]['id_kriteria'] => $kriteria[0]['weight'],
+    $kriteria[1]['id_kriteria'] => $kriteria[1]['weight'],
+    $kriteria[2]['id_kriteria'] => $kriteria[2]['weight'],
+    $kriteria[3]['id_kriteria'] => $kriteria[3]['weight'],
+    $kriteria[4]['id_kriteria'] => $kriteria[4]['weight'],
+  ];
+}
+
 $sql1         = "SELECT * FROM tb_kriteria";
 $result1      = $connect->query($sql1);
 $kriteria     = [];
-$bobot        = [];
 $namaKriteria = [];
 
 while ($row = $result1->fetch_array(MYSQLI_ASSOC)) {
   $kriteria[$row['id_criteria']] = array($row['criteria'], $row['tipe']);
-  $bobot[$row['id_criteria']] = $row['bobot'];
   $namaKriteria[] = $row['criteria'];
 }
 $n = count($kriteria);
@@ -22,7 +37,7 @@ $n = count($kriteria);
 // untuk alternatif
 $sql2       = "SELECT * FROM tb_alternatif";
 $result2    = $connect->query($sql2);
-$tanaman    = [];
+$alternatif    = [];
 $alternatif = [];
 
 while ($row = $result2->fetch_array(MYSQLI_ASSOC)) {
@@ -125,26 +140,28 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseSatu" class="collapse pt-1" aria-labelledby="headingSatu" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>Alternatif</th>
-                                <?php foreach ($namaKriteria as $key => $value) { ?>
-                                  <th><?= $value ?></th>
-                                <?php } ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php foreach ($X as $key => $value) { ?>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
                                 <tr>
-                                  <td><?= $alternatif[$key] ?></td>
-                                  <?php for ($i = 1; $i <= count($value); $i++) { ?>
-                                    <td><?= $value[$i] ?></td>
+                                  <th>Alternatif</th>
+                                  <?php foreach ($namaKriteria as $key => $value) { ?>
+                                    <th><?= $value ?></th>
                                   <?php } ?>
                                 </tr>
-                              <?php } ?>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                <?php foreach ($X as $key => $value) { ?>
+                                  <tr>
+                                    <td><?= $alternatif[$key] ?></td>
+                                    <?php for ($i = 1; $i <= count($value); $i++) { ?>
+                                      <td><?= $value[$i] ?></td>
+                                    <?php } ?>
+                                  </tr>
+                                <?php } ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -155,49 +172,51 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseDua" class="collapse pt-1" aria-labelledby="headingDua" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
-                                <?php foreach ($namaKriteria as $key => $value) { ?>
-                                  <th><?= $value ?></th>
-                                <?php } ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-
-                              $x_rata = array();
-                              foreach ($X as $i => $x) {
-                                foreach ($x as $j => $value) {
-                                  $x_rata[$j] = (isset($x_rata[$j]) ? $x_rata[$j] : 0) + pow($value, 2);
-                                }
-                              }
-                              for ($j = 1; $j <= $n; $j++) {
-                                $x_rata[$j] = sqrt($x_rata[$j]);
-                              }
-                              $R = array();
-                              $alternative = '';
-                              foreach ($X as $i => $x) {
-                                if ($alternative != $i) {
-                                  $alternative = $i;
-                                  $R[$i] = array();
-                                }
-                                foreach ($x as $j => $value) {
-                                  $R[$i][$j] = $value / $x_rata[$j];
-                                }
-                              }
-
-                              foreach ($R as $key => $value) { ?>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
                                 <tr>
-                                  <td><?= $tanaman[$key] ?></td>
-                                  <?php for ($i = 1; $i <= count($value); $i++) { ?>
-                                    <td><?= $value[$i] ?></td>
+                                  <th>Alternatif</th>
+                                  <?php foreach ($namaKriteria as $key => $value) { ?>
+                                    <th><?= $value ?></th>
                                   <?php } ?>
                                 </tr>
-                              <?php } ?>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                <?php
+
+                                $x_rata = array();
+                                foreach ($X as $i => $x) {
+                                  foreach ($x as $j => $value) {
+                                    $x_rata[$j] = (isset($x_rata[$j]) ? $x_rata[$j] : 0) + pow($value, 2);
+                                  }
+                                }
+                                for ($j = 1; $j <= $n; $j++) {
+                                  $x_rata[$j] = sqrt($x_rata[$j]);
+                                }
+                                $R = array();
+                                $alternative = '';
+                                foreach ($X as $i => $x) {
+                                  if ($alternative != $i) {
+                                    $alternative = $i;
+                                    $R[$i] = array();
+                                  }
+                                  foreach ($x as $j => $value) {
+                                    $R[$i][$j] = $value / $x_rata[$j];
+                                  }
+                                }
+
+                                foreach ($R as $key => $value) { ?>
+                                  <tr>
+                                    <td><?= $alternatif[$key] ?></td>
+                                    <?php for ($i = 1; $i <= count($value); $i++) { ?>
+                                      <td><?= $value[$i] ?></td>
+                                    <?php } ?>
+                                  </tr>
+                                <?php } ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -208,41 +227,40 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseTiga" class="collapse pt-1" aria-labelledby="headingTiga" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <?php foreach ($namaKriteria as $key => $value) { ?>
-                                  <th><?= $value ?></th>
-                                <?php } ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <?php foreach ($namaKriteria as $key => $value) { ?>
+                                    <th><?= $value ?></th>
+                                  <?php } ?>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php
 
-                              // query untuk mengambil data nilai bobot criteria
-                              $sql = "SELECT kriteria FROM tb_kriteria_lokasi WHERE id_lokasi = '$id_lokasi'";
-                              $result = $connect->query($sql);
+                                // query untuk mengambil data nilai bobot criteria
+                                $sql = "SELECT kriteria FROM tb_kriteria_lokasi WHERE id_lokasi = '$id_lokasi'";
+                                $result = $connect->query($sql);
 
-                              $criteria = array();
-                              while ($row = $result->fetch_array()) {
+                                $criteria = array();
+                                while ($row = $result->fetch_array()) {
 
-                                $kriteria = json_decode($row['kriteria'], true);
-                                for ($i = 0; $i < count($kriteria); $i++) {
-                                  $criteria[$kriteria[$i]['id_kriteria']] = $kriteria[$i]['weight'];
+                                  $kriteria = json_decode($row['kriteria'], true);
+                                  for ($i = 0; $i < count($kriteria); $i++) {
+                                    $criteria[$kriteria[$i]['id_kriteria']] = $kriteria[$i]['weight'];
+                                  }
                                 }
-                              }
 
-                              echo "<tr>";
-                              for ($i = 1; $i <= count($criteria); $i++) {
-                                echo "<td>" . $criteria[$i] . "</td>";
-                              }
-                              echo "</tr>";
-
-
-
-                              ?>
-                            </tbody>
-                          </table>
+                                echo "<tr>";
+                                for ($i = 1; $i <= count($criteria); $i++) {
+                                  echo "<td>" . $criteria[$i] . "</td>";
+                                }
+                                echo "</tr>";
+                                ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -253,48 +271,46 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseEmpat" class="collapse pt-1" aria-labelledby="headingEmpat" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th>Alternatif</th>
+                                  <?php foreach ($namaKriteria as $key => $value) { ?>
+                                    <th><?= $value ?></th>
+                                  <?php } ?>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 <?php
 
-                                foreach ($result3 as $key) {
-                                  echo "<th>" . $key['criteria'] . "</th>";
+                                $V = $w = array();
+                                foreach ($criteria as $j => $weight)
+                                  $w[$j] = $weight;
+                                $alternative = '';
+                                foreach ($R as $i => $r) {
+                                  if ($alternative != $i) {
+                                    $alternative = $i;
+                                    $V[$i] = array();
+                                  }
+                                  foreach ($r as $j => $value) {
+                                    $V[$i][$j] = $w[$j] * $value;
+                                  }
+                                }
+
+                                foreach ($V as $key => $value) {
+                                  echo "<tr>";
+                                  echo "<td>" . $alternatif[$key] . "</td>";
+                                  for ($i = 1; $i <= count($value); $i++) {
+                                    echo "<td>" . $value[$i] . "</td>";
+                                  }
+                                  echo "</tr>";
                                 }
 
                                 ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-
-                              $V = $w = array();
-                              foreach ($criteria as $j => $weight)
-                                $w[$j] = $weight;
-                              $alternative = '';
-                              foreach ($R as $i => $r) {
-                                if ($alternative != $i) {
-                                  $alternative = $i;
-                                  $V[$i] = array();
-                                }
-                                foreach ($r as $j => $value) {
-                                  $V[$i][$j] = $w[$j] * $value;
-                                }
-                              }
-
-                              foreach ($V as $key => $value) {
-                                echo "<tr>";
-                                echo "<td>" . $tanaman[$key] . "</td>";
-                                for ($i = 1; $i <= count($value); $i++) {
-                                  echo "<td>" . $value[$i] . "</td>";
-                                }
-                                echo "</tr>";
-                              }
-
-                              ?>
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -305,53 +321,55 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseLima" class="collapse pt-1" aria-labelledby="headingLima" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <?php
+                                  foreach ($result2 as $key => $value) {
+                                    echo "<th>" . $value['name'] . "</th>";
+                                  }
+                                  ?>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 <?php
-                                foreach ($result2 as $key => $value) {
-                                  echo "<th>" . $value['name'] . "</th>";
-                                }
-                                ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
 
-                              $c = array();
-                              $c_index = '';
-                              for ($k = 1; $k <= $m; $k++) {
-                                if ($c_index != $k) {
-                                  $c_index = $k;
-                                  $c[$k] = array();
-                                }
-                                for ($l = 1; $l <= $m; $l++) {
-                                  if ($k != $l) {
-                                    for ($j = 1; $j <= $n; $j++) {
-                                      if (!isset($c[$k][$l])) $c[$k][$l] = array();
-                                      if ($V[$k][$j] >= $V[$l][$j]) {
-                                        array_push($c[$k][$l], $j);
+                                $c = array();
+                                $c_index = '';
+                                for ($k = 1; $k <= $m; $k++) {
+                                  if ($c_index != $k) {
+                                    $c_index = $k;
+                                    $c[$k] = array();
+                                  }
+                                  for ($l = 1; $l <= $m; $l++) {
+                                    if ($k != $l) {
+                                      for ($j = 1; $j <= $n; $j++) {
+                                        if (!isset($c[$k][$l])) $c[$k][$l] = array();
+                                        if ($V[$k][$j] >= $V[$l][$j]) {
+                                          array_push($c[$k][$l], $j);
+                                        }
                                       }
+                                    } else if (isset($c[$k][$l]) == NULL) {
+                                      $c[$k][$l] = $c[$k][$l] = "-";
                                     }
-                                  } else if (isset($c[$k][$l]) == NULL) {
-                                    $c[$k][$l] = $c[$k][$l] = "-";
                                   }
                                 }
-                              }
 
-                              foreach ($c as $key => $value) {
-                                echo "<tr>";
-                                echo "<td>" . $tanaman[$key] . "</td>";
-                                for ($i = 1; $i <= count($c); $i++) {
-                                  echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                foreach ($c as $key => $value) {
+                                  echo "<tr>";
+                                  echo "<td>" . $alternatif[$key] . "</td>";
+                                  for ($i = 1; $i <= count($c); $i++) {
+                                    echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                  }
+                                  echo "</tr>";
                                 }
-                                echo "</tr>";
-                              }
 
-                              ?>
-                            </tbody>
-                          </table>
+                                ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -362,53 +380,55 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseEnam" class="collapse pt-1" aria-labelledby="headingEnam" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <?php
+                                  foreach ($result2 as $key => $value) {
+                                    echo "<th>" . $value['name'] . "</th>";
+                                  }
+                                  ?>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 <?php
-                                foreach ($result2 as $key => $value) {
-                                  echo "<th>" . $value['name'] . "</th>";
-                                }
-                                ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
 
-                              $d = array();
-                              $d_index = '';
-                              for ($k = 1; $k <= $m; $k++) {
-                                if ($d_index != $k) {
-                                  $d_index = $k;
-                                  $d[$k] = array();
-                                }
-                                for ($l = 1; $l <= $m; $l++) {
-                                  if ($k != $l) {
-                                    for ($j = 1; $j <= $n; $j++) {
-                                      if (!isset($d[$k][$l])) $d[$k][$l] = array();
-                                      if ($V[$k][$j] < $V[$l][$j]) {
-                                        array_push($d[$k][$l], $j);
+                                $d = array();
+                                $d_index = '';
+                                for ($k = 1; $k <= $m; $k++) {
+                                  if ($d_index != $k) {
+                                    $d_index = $k;
+                                    $d[$k] = array();
+                                  }
+                                  for ($l = 1; $l <= $m; $l++) {
+                                    if ($k != $l) {
+                                      for ($j = 1; $j <= $n; $j++) {
+                                        if (!isset($d[$k][$l])) $d[$k][$l] = array();
+                                        if ($V[$k][$j] < $V[$l][$j]) {
+                                          array_push($d[$k][$l], $j);
+                                        }
                                       }
+                                    } else if (isset($d[$k][$l]) == NULL) {
+                                      $d[$k][$l] = $d[$k][$l] = "-";
                                     }
-                                  } else if (isset($d[$k][$l]) == NULL) {
-                                    $d[$k][$l] = $d[$k][$l] = "-";
                                   }
                                 }
-                              }
 
-                              foreach ($d as $key => $value) {
-                                echo "<tr>";
-                                echo "<td>" . $tanaman[$key] . "</td>";
-                                for ($i = 1; $i <= count($c); $i++) {
-                                  echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                foreach ($d as $key => $value) {
+                                  echo "<tr>";
+                                  echo "<td>" . $alternatif[$key] . "</td>";
+                                  for ($i = 1; $i <= count($c); $i++) {
+                                    echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                  }
+                                  echo "</tr>";
                                 }
-                                echo "</tr>";
-                              }
 
-                              ?>
-                            </tbody>
-                          </table>
+                                ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -419,52 +439,54 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseTujuh" class="collapse pt-1" aria-labelledby="headingTujuh" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <?php
+                                  foreach ($result2 as $key => $value) {
+                                    echo "<th>" . $value['name'] . "</th>";
+                                  }
+                                  ?>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 <?php
-                                foreach ($result2 as $key => $value) {
-                                  echo "<th>" . $value['name'] . "</th>";
-                                }
-                                ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
 
-                              $C = array();
-                              $c_index = '';
-                              for ($k = 1; $k <= $m; $k++) {
-                                if ($c_index != $k) {
-                                  $c_index = $k;
-                                  $C[$k] = array();
-                                }
-                                for ($l = 1; $l <= $m; $l++) {
-                                  if ($k != $l && count($c[$k][$l])) {
-                                    $f = 0;
-                                    foreach ($c[$k][$l] as $j) {
-                                      $C[$k][$l] = (isset($C[$k][$l]) ? $C[$k][$l] : 0) + $w[$j];
+                                $C = array();
+                                $c_index = '';
+                                for ($k = 1; $k <= $m; $k++) {
+                                  if ($c_index != $k) {
+                                    $c_index = $k;
+                                    $C[$k] = array();
+                                  }
+                                  for ($l = 1; $l <= $m; $l++) {
+                                    if ($k != $l && count($c[$k][$l])) {
+                                      $f = 0;
+                                      foreach ($c[$k][$l] as $j) {
+                                        $C[$k][$l] = (isset($C[$k][$l]) ? $C[$k][$l] : 0) + $w[$j];
+                                      }
+                                    } else if (isset($C[$k][$l]) == NULL) {
+                                      $C[$k][$l] = $C[$k][$l] = "-";
                                     }
-                                  } else if (isset($C[$k][$l]) == NULL) {
-                                    $C[$k][$l] = $C[$k][$l] = "-";
                                   }
                                 }
-                              }
 
-                              foreach ($C as $key => $value) {
-                                echo "<tr>";
-                                echo "<tr>";
-                                echo "<td>" . $tanaman[$key] . "</td>";
-                                for ($i = 1; $i <= count($c); $i++) {
-                                  echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                foreach ($C as $key => $value) {
+                                  echo "<tr>";
+                                  echo "<tr>";
+                                  echo "<td>" . $alternatif[$key] . "</td>";
+                                  for ($i = 1; $i <= count($c); $i++) {
+                                    echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                  }
+                                  echo "</tr>";
                                 }
-                                echo "</tr>";
-                              }
 
-                              ?>
-                            </tbody>
-                          </table>
+                                ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -495,62 +517,64 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseSembilan" class="collapse pt-1" aria-labelledby="headingSembilan" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <?php
+                                  foreach ($result2 as $key => $value) {
+                                    echo "<th>" . $value['name'] . "</th>";
+                                  }
+                                  ?>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 <?php
-                                foreach ($result2 as $key => $value) {
-                                  echo "<th>" . $value['name'] . "</th>";
-                                }
-                                ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
 
-                              $D = array();
-                              $d_index = '';
-                              for ($k = 1; $k <= $m; $k++) {
-                                if ($d_index != $k) {
-                                  $d_index = $k;
-                                  $D[$k] = array();
-                                }
-                                for ($l = 1; $l <= $m; $l++) {
-                                  if ($k != $l) {
-                                    $max_d = 0;
-                                    $max_j = 0;
-                                    if (count($d[$k][$l])) {
-                                      $mx = array();
-                                      foreach ($d[$k][$l] as $j) {
-                                        if ($max_d < abs($V[$k][$j] - $V[$l][$j]))
-                                          $max_d = abs($V[$k][$j] - $V[$l][$j]);
+                                $D = array();
+                                $d_index = '';
+                                for ($k = 1; $k <= $m; $k++) {
+                                  if ($d_index != $k) {
+                                    $d_index = $k;
+                                    $D[$k] = array();
+                                  }
+                                  for ($l = 1; $l <= $m; $l++) {
+                                    if ($k != $l) {
+                                      $max_d = 0;
+                                      $max_j = 0;
+                                      if (count($d[$k][$l])) {
+                                        $mx = array();
+                                        foreach ($d[$k][$l] as $j) {
+                                          if ($max_d < abs($V[$k][$j] - $V[$l][$j]))
+                                            $max_d = abs($V[$k][$j] - $V[$l][$j]);
+                                        }
                                       }
+                                      $mx = array();
+                                      for ($j = 1; $j <= $n; $j++) {
+                                        if ($max_j < abs($V[$k][$j] - $V[$l][$j]))
+                                          $max_j = abs($V[$k][$j] - $V[$l][$j]);
+                                      }
+                                      $D[$k][$l] = $max_d == 0 ? 0 : $max_d / $max_j;
+                                    } else if (isset($D[$k][$l]) == NULL) {
+                                      $D[$k][$l] = $D[$k][$l] = "-";
                                     }
-                                    $mx = array();
-                                    for ($j = 1; $j <= $n; $j++) {
-                                      if ($max_j < abs($V[$k][$j] - $V[$l][$j]))
-                                        $max_j = abs($V[$k][$j] - $V[$l][$j]);
-                                    }
-                                    $D[$k][$l] = $max_d == 0 ? 0 : $max_d / $max_j;
-                                  } else if (isset($D[$k][$l]) == NULL) {
-                                    $D[$k][$l] = $D[$k][$l] = "-";
                                   }
                                 }
-                              }
 
-                              foreach ($D as $key => $value) {
-                                echo "<tr>";
-                                echo "<td>" . $tanaman[$key] . "</td>";
-                                for ($i = 1; $i <= count($c); $i++) {
-                                  echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                foreach ($D as $key => $value) {
+                                  echo "<tr>";
+                                  echo "<td>" . $alternatif[$key] . "</td>";
+                                  for ($i = 1; $i <= count($c); $i++) {
+                                    echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                  }
+                                  echo "</tr>";
                                 }
-                                echo "</tr>";
-                              }
 
-                              ?>
-                            </tbody>
-                          </table>
+                                ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -581,40 +605,42 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseSebelas" class="collapse pt-1" aria-labelledby="headingSebelas" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <?php
+                                  foreach ($result2 as $key => $value) {
+                                    echo "<th>" . $value['name'] . "</th>";
+                                  }
+                                  ?>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 <?php
-                                foreach ($result2 as $key => $value) {
-                                  echo "<th>" . $value['name'] . "</th>";
+
+                                $F = array();
+                                foreach ($C as $k => $cl) {
+                                  $F[$k] = array();
+                                  foreach ($cl as $l => $value) {
+                                    $F[$k][$l] = ($value >= $threshold_c ? 1 : 0);
+                                  }
                                 }
+
+                                foreach ($F as $key => $value) {
+                                  echo "<tr>";
+                                  echo "<td>" . $alternatif[$key] . "</td>";
+                                  for ($i = 1; $i <= count($c); $i++) {
+                                    echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                  }
+                                  echo "</tr>";
+                                }
+
                                 ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-
-                              $F = array();
-                              foreach ($C as $k => $cl) {
-                                $F[$k] = array();
-                                foreach ($cl as $l => $value) {
-                                  $F[$k][$l] = ($value >= $threshold_c ? 1 : 0);
-                                }
-                              }
-
-                              foreach ($F as $key => $value) {
-                                echo "<tr>";
-                                echo "<td>" . $tanaman[$key] . "</td>";
-                                for ($i = 1; $i <= count($c); $i++) {
-                                  echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
-                                }
-                                echo "</tr>";
-                              }
-
-                              ?>
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -625,40 +651,42 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseDuabelas" class="collapse pt-1" aria-labelledby="headingDuabelas" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <?php
+                                  foreach ($result2 as $key => $value) {
+                                    echo "<th>" . $value['name'] . "</th>";
+                                  }
+                                  ?>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 <?php
-                                foreach ($result2 as $key => $value) {
-                                  echo "<th>" . $value['name'] . "</th>";
+
+                                $G = array();
+                                foreach ($D as $k => $dl) {
+                                  $G[$k] = array();
+                                  foreach ($dl as $l => $value) {
+                                    $G[$k][$l] = ($value >= $threshold_d ? 1 : 0);
+                                  }
                                 }
+
+                                foreach ($G as $key => $value) {
+                                  echo "<tr>";
+                                  echo "<td>" . $alternatif[$key] . "</td>";
+                                  for ($i = 1; $i <= count($c); $i++) {
+                                    echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                  }
+                                  echo "</tr>";
+                                }
+
                                 ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-
-                              $G = array();
-                              foreach ($D as $k => $dl) {
-                                $G[$k] = array();
-                                foreach ($dl as $l => $value) {
-                                  $G[$k][$l] = ($value >= $threshold_d ? 1 : 0);
-                                }
-                              }
-
-                              foreach ($G as $key => $value) {
-                                echo "<tr>";
-                                echo "<td>" . $tanaman[$key] . "</td>";
-                                for ($i = 1; $i <= count($c); $i++) {
-                                  echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
-                                }
-                                echo "</tr>";
-                              }
-
-                              ?>
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -669,45 +697,47 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseTigabelas" class="collapse pt-1" aria-labelledby="headingTigabelas" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th></th>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <?php
+                                  foreach ($result2 as $key => $value) {
+                                    echo "<th>" . $value['name'] . "</th>";
+                                  }
+                                  ?>
+                                  <th>Poin</th>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 <?php
-                                foreach ($result2 as $key => $value) {
-                                  echo "<th>" . $value['name'] . "</th>";
+
+                                $hasil1 = array();
+
+                                $E = array();
+                                foreach ($F as $k => $sl) {
+                                  $E[$k] = array();
+                                  foreach ($sl as $l => $value) {
+                                    $E[$k][$l] = $F[$k][$l] * $G[$k][$l];
+                                  }
+                                }
+
+                                foreach ($E as $key => $value) {
+                                  $hasil1[$alternatif[$key]] = array_sum($value);
+
+                                  echo "<tr>";
+                                  echo "<td>" . $alternatif[$key] . "</td>";
+                                  for ($i = 1; $i <= count($c); $i++) {
+                                    echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
+                                  }
+                                  echo "<td>" . array_sum($value) . "</td>";
+                                  echo "</tr>";
                                 }
                                 ?>
-                                <th>Poin</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-
-                              $hasil1 = array();
-
-                              $E = array();
-                              foreach ($F as $k => $sl) {
-                                $E[$k] = array();
-                                foreach ($sl as $l => $value) {
-                                  $E[$k][$l] = $F[$k][$l] * $G[$k][$l];
-                                }
-                              }
-
-                              foreach ($E as $key => $value) {
-                                $hasil1[$tanaman[$key]] = array_sum($value);
-
-                                echo "<tr>";
-                                echo "<td>" . $tanaman[$key] . "</td>";
-                                for ($i = 1; $i <= count($c); $i++) {
-                                  echo is_array($value[$i]) ? "<td>" . implode(", ", $value[$i]) . "</td>" : "<td>" . $value[$i] . "</td>";
-                                }
-                                echo "<td>" . array_sum($value) . "</td>";
-                                echo "</tr>";
-                              }
-                              ?>
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -718,28 +748,30 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseEmpatbelas" class="collapse pt-1" aria-labelledby="headingEmpatbelas" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>Ranking</th>
-                                <th>Nama Tanaman</th>
-                                <th>Poin</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-                              arsort($hasil1);
-                              $ranking = 1;
-                              foreach ($hasil1 as $key => $value) {
-                                echo "<tr>";
-                                echo "<td>" . $ranking++ . "</td>";
-                                echo "<td>" . $alternatif[$key][0] . "</td>";
-                                echo "<td>" . $value . "</td>";
-                                echo "</tr>";
-                              }
-                              ?>
-                            </tbody>
-                          </table>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th>Ranking</th>
+                                  <th>Nama Tanaman</th>
+                                  <th>Poin</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php
+                                arsort($hasil1);
+                                $ranking = 1;
+                                foreach ($hasil1 as $key => $value) {
+                                  echo "<tr>";
+                                  echo "<td>" . $ranking++ . "</td>";
+                                  echo "<td>" . $alternatif[$key][0] . "</td>";
+                                  echo "<td>" . $value . "</td>";
+                                  echo "</tr>";
+                                }
+                                ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -755,26 +787,28 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseSatu" class="collapse pt-1" aria-labelledby="headingSatu" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>Alternatif</th>
-                                <?php foreach ($namaKriteria as $key => $value) { ?>
-                                  <th><?= $value ?></th>
-                                <?php } ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php foreach ($sample as $id_altenatif => $kriteria) { ?>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
                                 <tr>
-                                  <td><?= $alternatif[$id_altenatif] ?></td>
-                                  <?php foreach ($kriteria as $id_kriteria => $nilai) { ?>
-                                    <td><?= $nilai ?></td>
+                                  <th>Alternatif</th>
+                                  <?php foreach ($namaKriteria as $key => $value) { ?>
+                                    <th><?= $value ?></th>
                                   <?php } ?>
                                 </tr>
-                              <?php } ?>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                <?php foreach ($sample as $id_altenatif => $kriteria) { ?>
+                                  <tr>
+                                    <td><?= $alternatif[$id_altenatif] ?></td>
+                                    <?php foreach ($kriteria as $id_kriteria => $nilai) { ?>
+                                      <td><?= $nilai ?></td>
+                                    <?php } ?>
+                                  </tr>
+                                <?php } ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -799,36 +833,38 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseDua" class="collapse pt-1" aria-labelledby="headingDua" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>Alternatif</th>
-                                <?php foreach ($namaKriteria as $key => $value) { ?>
-                                  <th><?= $value ?></th>
-                                <?php } ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-                              $N = array();
-                              foreach ($sample as $i => $kriteria) {
-                                $N[$i] = array();
-                                foreach ($kriteria as $j => $nilai) {
-                                  $N[$i][$j] = ($f_plus[$j] - $nilai) / ($f_plus[$j] - $f_min[$j]);
-                                }
-                              }
-                              ?>
-
-                              <?php foreach ($alternatif as $key => $value) { ?>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
                                 <tr>
-                                  <td><?= $alternatif[$key] ?></td>
-                                  <?php for ($i = 1; $i <= count($N[$key]); $i++) { ?>
-                                    <td><?= $N[$key][$i] ?></td>
+                                  <th>Alternatif</th>
+                                  <?php foreach ($namaKriteria as $key => $value) { ?>
+                                    <th><?= $value ?></th>
                                   <?php } ?>
                                 </tr>
-                              <?php } ?>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                <?php
+                                $N = array();
+                                foreach ($sample as $i => $kriteria) {
+                                  $N[$i] = array();
+                                  foreach ($kriteria as $j => $nilai) {
+                                    $N[$i][$j] = ($f_plus[$j] - $nilai) / ($f_plus[$j] - $f_min[$j]);
+                                  }
+                                }
+                                ?>
+
+                                <?php foreach ($alternatif as $key => $value) { ?>
+                                  <tr>
+                                    <td><?= $alternatif[$key] ?></td>
+                                    <?php for ($i = 1; $i <= count($N[$key]); $i++) { ?>
+                                      <td><?= $N[$key][$i] ?></td>
+                                    <?php } ?>
+                                  </tr>
+                                <?php } ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -839,36 +875,38 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseTiga" class="collapse pt-1" aria-labelledby="headingTiga" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>Alternatif</th>
-                                <?php foreach ($namaKriteria as $key => $value) { ?>
-                                  <th><?= $value ?></th>
-                                <?php } ?>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-                              $F_star = array();
-                              foreach ($N as $i => $kriteria) {
-                                $F_star[$i] = array();
-                                foreach ($kriteria as $j => $nilai) {
-                                  $F_star[$i][$j] = $nilai * $bobot[$j];
-                                }
-                              }
-                              ?>
-
-                              <?php foreach ($alternatif as $key => $value) { ?>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
                                 <tr>
-                                  <td><?= $alternatif[$key] ?></td>
-                                  <?php for ($i = 1; $i <= count($F_star[$key]); $i++) { ?>
-                                    <td><?= $F_star[$key][$i] ?></td>
+                                  <th>Alternatif</th>
+                                  <?php foreach ($namaKriteria as $key => $value) { ?>
+                                    <th><?= $value ?></th>
                                   <?php } ?>
                                 </tr>
-                              <?php } ?>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                <?php
+                                $F_star = array();
+                                foreach ($N as $i => $kriteria) {
+                                  $F_star[$i] = array();
+                                  foreach ($kriteria as $j => $nilai) {
+                                    $F_star[$i][$j] = $nilai * $bobot[$j];
+                                  }
+                                }
+                                ?>
+
+                                <?php foreach ($alternatif as $key => $value) { ?>
+                                  <tr>
+                                    <td><?= $alternatif[$key] ?></td>
+                                    <?php for ($i = 1; $i <= count($F_star[$key]); $i++) { ?>
+                                      <td><?= $F_star[$key][$i] ?></td>
+                                    <?php } ?>
+                                  </tr>
+                                <?php } ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -879,35 +917,37 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseEmpat" class="collapse pt-1" aria-labelledby="headingEmpat" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>Alternatif</th>
-                                <th>S</th>
-                                <th>R</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-                              $S = $R = array();
-                              foreach ($F_star as $i => $kriteria) {
-                                $S[$i] = $R[$i] = 0;
-                                foreach ($kriteria as $j => $nilai) {
-                                  $S[$i] += $nilai;
-                                  $R[$i] = ($R[$i] < $nilai ? $nilai : $R[$i]);
-                                }
-                              }
-                              ?>
-
-                              <?php foreach ($alternatif as $key => $value) { ?>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
                                 <tr>
-                                  <td><?= $alternatif[$key] ?></td>
-                                  <td><?= $S[$key] ?></td>
-                                  <td><?= $R[$key] ?></td>
+                                  <th>Alternatif</th>
+                                  <th>S</th>
+                                  <th>R</th>
                                 </tr>
-                              <?php } ?>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                <?php
+                                $S = $R = array();
+                                foreach ($F_star as $i => $kriteria) {
+                                  $S[$i] = $R[$i] = 0;
+                                  foreach ($kriteria as $j => $nilai) {
+                                    $S[$i] += $nilai;
+                                    $R[$i] = ($R[$i] < $nilai ? $nilai : $R[$i]);
+                                  }
+                                }
+                                ?>
+
+                                <?php foreach ($alternatif as $key => $value) { ?>
+                                  <tr>
+                                    <td><?= $alternatif[$key] ?></td>
+                                    <td><?= $S[$key] ?></td>
+                                    <td><?= $R[$key] ?></td>
+                                  </tr>
+                                <?php } ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -918,24 +958,26 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseLima" class="collapse pt-1" aria-labelledby="headingLima" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>S+</th>
-                                <th>S-</th>
-                                <th>R+</th>
-                                <th>R-</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td><?= max($S) ?></td>
-                                <td><?= min($S) ?></td>
-                                <td><?= max($R) ?></td>
-                                <td><?= min($R) ?></td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
+                                <tr>
+                                  <th>S+</th>
+                                  <th>S-</th>
+                                  <th>R+</th>
+                                  <th>R-</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><?= max($S) ?></td>
+                                  <td><?= min($S) ?></td>
+                                  <td><?= max($R) ?></td>
+                                  <td><?= min($R) ?></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -946,24 +988,26 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseEnam" class="collapse pt-1" aria-labelledby="headingEnam" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>Alternatif</th>
-                                <th>Nilai</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-                              $Q = get_Q($S, $R);
-                              foreach ($Q as $key => $value) : ?>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
                                 <tr>
-                                  <td><?= $alternatif[$key] ?></td>
-                                  <td><?= $value ?></td>
+                                  <th>Alternatif</th>
+                                  <th>Nilai</th>
                                 </tr>
-                              <?php endforeach; ?>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                <?php
+                                $Q = get_Q($S, $R);
+                                foreach ($Q as $key => $value) : ?>
+                                  <tr>
+                                    <td><?= $alternatif[$key] ?></td>
+                                    <td><?= $value ?></td>
+                                  </tr>
+                                <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -974,25 +1018,27 @@ function get_sQ($Q)
                       </div>
                       <div id="collapseTujuh" class="collapse pt-1" aria-labelledby="headingTujuh" data-parent="#cardAccordion">
                         <div class="card-body">
-                          <table class="table table-striped" id="table1">
-                            <thead>
-                              <tr>
-                                <th>Alternatif</th>
-                                <th>Nilai</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-                              $Q = get_Q($S, $R);
-                              arsort($Q);
-                              foreach ($Q as $key => $value) : ?>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                              <thead>
                                 <tr>
-                                  <td><?= $alternatif[$key] ?></td>
-                                  <td><?= $value ?></td>
+                                  <th>Alternatif</th>
+                                  <th>Nilai</th>
                                 </tr>
-                              <?php endforeach; ?>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                <?php
+                                $Q = get_Q($S, $R);
+                                arsort($Q);
+                                foreach ($Q as $key => $value) : ?>
+                                  <tr>
+                                    <td><?= $alternatif[$key] ?></td>
+                                    <td><?= $value ?></td>
+                                  </tr>
+                                <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>

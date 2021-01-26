@@ -48,9 +48,12 @@
                                         $kriteria = json_decode($result['kriteria'], true);
                                         ?>
                                         <th><?= $kriteria[0]['kriteria'] ?></th>
+                                        <th><?= $kriteria[1]['kriteria'] ?></th>
                                         <th><?= $kriteria[2]['kriteria'] ?></th>
                                         <th><?= $kriteria[3]['kriteria'] ?></th>
                                         <th><?= $kriteria[4]['kriteria'] ?></th>
+                                        <th><?= $kriteria[5]['kriteria'] ?></th>
+                                        <th><?= $kriteria[6]['kriteria'] ?></th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -66,45 +69,118 @@
                                             <td><?= $row['nama_lokasi'] ?></td>
                                             <td>
                                                 <?php
-                                                if ($kriteria[0]['weight'] == 4) {
-                                                    echo "Latosol";
-                                                } else if ($kriteria[0]['weight'] == 3) {
-                                                    echo "Organosol";
-                                                } else if ($kriteria[0]['weight'] == 2) {
-                                                    echo "Podzolik";
-                                                } else if ($kriteria[0]['weight'] == 1) {
-                                                    echo "Litosol";
+                                                switch ($kriteria[0]['weight']) {
+                                                    case 6:
+                                                        echo 'Regosol';
+                                                        break;
+                                                    case 5:
+                                                        echo 'Litosol';
+                                                        break;
+                                                    case 4:
+                                                        echo 'Latosol';
+                                                        break;
+                                                    case 3:
+                                                        echo 'Organosol';
+                                                        break;
+                                                    case 2:
+                                                        echo 'Podzolik';
+                                                        break;
+                                                    case 1:
+                                                        echo 'Litosol';
+                                                        break;
                                                 }
                                                 ?>
                                             </td>
                                             <td>
                                                 <?php
-                                                if ($kriteria[2]['weight'] == 2) {
-                                                    echo "Ada";
-                                                } else if ($kriteria[2]['weight'] == 1) {
-                                                    echo "Tidak Ada";
+                                                switch ($kriteria[1]['weight']) {
+                                                    case 3:
+                                                        echo 'Tinggi (300 - 500 mm)';
+                                                        break;
+                                                    case 2:
+                                                        echo 'Menengah (100 - 300 mm)';
+                                                        break;
+                                                    case 1:
+                                                        echo 'Rendah (0 - 100 mm)';
+                                                        break;
                                                 }
                                                 ?>
                                             </td>
                                             <td>
                                                 <?php
-                                                if ($kriteria[3]['weight'] == 4) {
-                                                    echo "Basa Sedang (7,5 - 8,5)";
-                                                } else if ($kriteria[3]['weight'] == 3) {
-                                                    echo "Netral (7,0 - 7,5)";
-                                                } else if ($kriteria[3]['weight'] == 2) {
-                                                    echo "Asam Sedang (4,0 - 6,9)";
-                                                } else if ($kriteria[3]['weight'] == 1) {
-                                                    echo "Sangat Asam (< 4)";
+                                                switch ($kriteria[2]['weight']) {
+                                                    case 2:
+                                                        echo 'Ada';
+                                                        break;
+                                                    case 1:
+                                                        echo 'Tidak Ada';
+                                                        break;
                                                 }
                                                 ?>
                                             </td>
                                             <td>
                                                 <?php
-                                                if ($kriteria[4]['weight'] == 2) {
-                                                    echo "Dataran Tinggi (500 - 1500 mdpl)";
-                                                } else if ($kriteria[4]['weight'] == 1) {
-                                                    echo "Dataran Rendah (0 - 500 mdpl)";
+                                                switch ($kriteria[3]['weight']) {
+                                                    case 4:
+                                                        echo 'Basa Sedang (7,5 - 8,5)';
+                                                        break;
+                                                    case 3:
+                                                        echo 'Netral (7,0 - 7,5)';
+                                                        break;
+                                                    case 2:
+                                                        echo 'Asam Sedang (4,0 - 6,9)';
+                                                        break;
+                                                    case 1:
+                                                        echo 'Sangat Asam (< 4)';
+                                                        break;
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                switch ($kriteria[4]['weight']) {
+                                                    case 2:
+                                                        echo 'Dataran Tinggi (500 - 1500 mdpl)';
+                                                        break;
+                                                    case 1:
+                                                        echo 'Dataran Rendah (0 - 500 mdpl)';
+                                                        break;
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                switch ($kriteria[5]['weight']) {
+                                                    case 4:
+                                                        echo '26,3 C - 22 C';
+                                                        break;
+                                                    case 3:
+                                                        echo '22 C - 17,1 C';
+                                                        break;
+                                                    case 2:
+                                                        echo '17,1 C - 11,1 C';
+                                                        break;
+                                                    case 1:
+                                                        echo '11,1 C - 6,2 C';
+                                                        break;
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                switch ($kriteria[6]['weight']) {
+                                                    case 4:
+                                                        echo '< 20 cm';
+                                                        break;
+                                                    case 3:
+                                                        echo '20 - 50 cm';
+                                                        break;
+                                                    case 2:
+                                                        echo '50 - 75 cm';
+                                                        break;
+                                                    case 1:
+                                                        echo '> 75 cm';
+                                                        break;
                                                 }
                                                 ?>
                                             </td>
@@ -160,6 +236,8 @@
                                 <input type="hidden" name="id_kriteria1" value="1" readonly="readonly">
                                 <select class="form-control show-tick" name="kriteria1" id="kriteria1">
                                     <option>Jenis Tanah</option>
+                                    <option value="6">Regosol</option>
+                                    <option value="5">Litosol</option>
                                     <option value="4">Latosol</option>
                                     <option value="3">Organosol</option>
                                     <option value="2">Podzolik</option>
@@ -167,10 +245,17 @@
                                 </select>
                             </div>
                         </div>
-
-                        <input type="hidden" name="id_kriteria2" value="2" readonly="readonly">
-                        <input type="hidden" name="kriteria2" readonly="readonly" value="Curah Hujan">
-
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="hidden" name="id_kriteria2" value="2" readonly="readonly">
+                                <select class="form-control show-tick" name="kriteria2" id="kriteria2">
+                                    <option>Curah Hujan</option>
+                                    <option value="3">Tinggi (300 - 500 mm)</option>
+                                    <option value="2">Menengah (100 - 300 mm)</option>
+                                    <option value="1">Renda (0 - 100 mm)h</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group form-float">
                             <div class="form-line">
                                 <input type="hidden" name="id_kriteria3" value="3" readonly="readonly">
@@ -203,11 +288,34 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="hidden" name="id_kriteria6" value="6" readonly="readonly">
+                                <select name="kriteria6" class="form-control show-tick">
+                                    <option>Temperatur</option>
+                                    <option value="4">26,3 C - 22 C</option>
+                                    <option value="3">22 C - 17,1 C</option>
+                                    <option value="2">17,1 C - 11,1 C</option>
+                                    <option value="1">11,1 C - 6,2 C</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="hidden" name="id_kriteria7" value="7" readonly="readonly">
+                                <select name="kriteria7" class="form-control show-tick">
+                                    <option>Kedalaman Tanah</option>
+                                    <option value="4">
+                                        < 20 cm</option>
+                                    <option value="3">20 - 50 cm</option>
+                                    <option value="2">50 - 75 cm</option>
+                                    <option value="1">> 75 cm</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-
-
-                    <input type="submit" name="tambah" value="TAMBAH" class="btn btn-link waves-effect">
-                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">TUTUP</button>
+                    <button type="submit" name="tambah" class="btn btn-success">TAMBAH</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">TUTUP</button>
                 </form>
 
             </div>
@@ -235,7 +343,7 @@
 <a href="link" id="tombol-modal" data-toggle="modal"></a>
 <!-- end:: tombol aktif -->
 
-<div class="modal fade" id="modal4" tabindex="-1" role="dialog">
+<!-- <div class="modal fade" id="modal4" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -321,7 +429,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- begin:: foot -->
 <?php include_once 'atribut/foot.php'; ?>
@@ -380,12 +488,15 @@ if (isset($_POST['tambah'])) {
 
         $array_kriteria = array(
             ['id_kriteria' => $_POST['id_kriteria1'], 'kriteria' => 'Jenis Tanah', 'weight' => $_POST['kriteria1']],
-            ['id_kriteria' => $_POST['id_kriteria2'], 'kriteria' => 'Curah Hujan', 'weight' => ''],
+            ['id_kriteria' => $_POST['id_kriteria2'], 'kriteria' => 'Curah Hujan', 'weight' => $_POST['kriteria2']],
             ['id_kriteria' => $_POST['id_kriteria3'], 'kriteria' => 'Drainase', 'weight' => $_POST['kriteria3']],
             ['id_kriteria' => $_POST['id_kriteria4'], 'kriteria' => 'pH', 'weight' => $_POST['kriteria4']],
-            ['id_kriteria' => $_POST['id_kriteria5'], 'kriteria' => 'Ketinggian Tempat', 'weight' => $_POST['kriteria5']]
+            ['id_kriteria' => $_POST['id_kriteria5'], 'kriteria' => 'Ketinggian Tempat', 'weight' => $_POST['kriteria5']],
+            ['id_kriteria' => $_POST['id_kriteria6'], 'kriteria' => 'Temperatur', 'weight' => $_POST['kriteria6']],
+            ['id_kriteria' => $_POST['id_kriteria7'], 'kriteria' => 'Kedalam Tanah', 'weight' => $_POST['kriteria7']]
         );
         $data_kriteria = json_encode($array_kriteria);
+
         $query  = "INSERT INTO tb_kriteria_lokasi (id_lokasi, kriteria) VALUES ('$nm_lokasi', '$data_kriteria')";
         $result = $connect->query($query);
 
@@ -411,7 +522,9 @@ if (isset($_POST['tambah'])) {
         ['id_kriteria' => $_POST['id_kriteria2'], 'kriteria' => 'Curah Hujan', 'weight' => ''],
         ['id_kriteria' => $_POST['id_kriteria3'], 'kriteria' => 'Drainase', 'weight' => $_POST['kriteria3']],
         ['id_kriteria' => $_POST['id_kriteria4'], 'kriteria' => 'pH', 'weight' => $_POST['kriteria4']],
-        ['id_kriteria' => $_POST['id_kriteria5'], 'kriteria' => 'Ketinggian Tempat', 'weight' => $_POST['kriteria5']]
+        ['id_kriteria' => $_POST['id_kriteria5'], 'kriteria' => 'Ketinggian Tempat', 'weight' => $_POST['kriteria5']],
+        ['id_kriteria' => $_POST['id_kriteria6'], 'kriteria' => 'Temperatur', 'weight' => $_POST['kriteria6']],
+        ['id_kriteria' => $_POST['id_kriteria7'], 'kriteria' => 'Kedalam Tanah', 'weight' => $_POST['kriteria7']]
     );
     $data_kriteria = json_encode($array_kriteria);
 
