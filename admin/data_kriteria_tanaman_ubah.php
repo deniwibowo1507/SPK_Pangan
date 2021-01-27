@@ -45,105 +45,135 @@ $row = $query->fetch_array(MYSQLI_ASSOC);
 								<label>Id Alternatif</label>
 								<div class="form-group form-float">
 									<div class="form-line">
-										<input type="text" class="form-control" name="idalternatif"
-											value="<?php echo $id_alternative; ?>" required="required">
+										<input type="text" class="form-control" name="idalternatif" value="<?php echo $id_alternative; ?>" required="required">
 									</div>
 								</div>
 								<label>
-									<?php 
-
-								if ($id_criteria == 1) {
-									echo "Jenis Tanah";
-								} else if ($id_criteria == 2) {
-									echo "Curah Hujan";
-								} else if ($id_criteria == 3) {
-									echo "Drainase";
-								} else if ($id_criteria == 4) {
-									echo "PH";
-								} else if ($id_criteria == 5) {
-									echo "Ketinggian Tempat";
-								}
-
-								?>
+									<?php
+									switch ($id_criteria) {
+										case 1:
+											echo "Jenis Tanah";
+											break;
+										case 2:
+											echo "Curah Hujan";
+											break;
+										case 3:
+											echo "Drainase";
+											break;
+										case 4:
+											echo "PH";
+											break;
+										case 5:
+											echo "Ketinggian Tempat";
+											break;
+										case 6:
+											echo "Temperatur";
+											break;
+										case 7:
+											echo "Kedalaman Tanah";
+											break;
+									}
+									?>
 								</label>
-								<input type="hidden" name="kriteria" value="<?php echo $id_criteria ?>"
-									readonly="readonly">
-								<?php if ($id_criteria == 1) { ?>
-								<div class="form-group form-float">
-									<div class="form-line">
-										<select class="form-control show-tick" name="value">
-											<option><?php echo $row['value']; ?></option>
-											<option value="4">Latosol</option>
-											<option value="3">Organosol</option>
-											<option value="2">Podzolik</option>
-											<option value="1">Litosol</option>
-										</select>
-									</div>
-								</div>
-								<?php } else if ($id_criteria == 2) { ?>
-								<div class="form-group form-float">
-									<div class="form-line">
-										<select class="form-control show-tick" name="value">
-											<option><?php echo $row['value']; ?></option>
-											<option value="3">Tinggi (300-400 mm/bulan)</option>
-											<option value="2">Menengah (200-300 mm/bulan)</option>
-											<option value="1">Rendah (100-200 mm/bulan)</option>
-										</select>
-									</div>
-								</div>
-								<?php } else if ($id_criteria == 3) { ?>
-								<div class="form-group form-float">
-									<div class="form-line">
-										<select class="form-control show-tick" name="value">
-											<option><?php echo $row['value']; ?></option>
-											<option value="2">Ada</option>
-											<option value="1">Tidak Ada</option>
-										</select>
-									</div>
-								</div>
-								<?php } else if ($id_criteria == 4) { ?>
-								<div class="form-group form-float">
-									<div class="form-line">
-										<select class="form-control show-tick" name="value">
-											<option><?php echo $row['value']; ?></option>
-											<option value="4">Basa Sedang (7,5 - 8,5)</option>
-											<option value="3">Netral (7,0 - 7,5)</option>
-											<option value="2">Asam Sedang (4,0 - 6,9)</option>
-											<option value="1">Sangat Asam (< 4)</option> </select> </div> </div>
-													<?php } else if ($id_criteria == 5) { ?> <div
-													class="form-group form-float">
-													<div class="form-line">
-														<select class="form-control show-tick" name="value">
-															<option><?php echo $row['value']; ?></option>
-															<option value="2">Dataran Tinggi (500 - 1500 mdpl)</option>
-															<option value="1">Dataran Rendah (0 - 500 mdpl)</option>
-														</select>
-													</div>
-									</div>
-									<?php } ?>
-									<a href="data_kriteria_tanaman.php"
-										class="btn btn-link btn-danger waves-effect">Batal</a>
-									<input type="submit" name="ubah" value="Ubah"
-										class="btn btn-link btn-primary waves-effect">
+								<input type="hidden" name="kriteria" value="<?php echo $id_criteria ?>" readonly="readonly">
+
+								<?php
+								switch ($id_criteria) {
+									case 1: ?>
+										<div class="form-group form-float">
+											<div class="form-line">
+												<select name="value" class="form-control">
+													<option value="6" <?= ($row['value'] === '6' ? 'selected' : '') ?>>Regosol</option>
+													<option value="5" <?= ($row['value'] === '5' ? 'selected' : '') ?>>Litosol</option>
+													<option value="4" <?= ($row['value'] === '4' ? 'selected' : '') ?>>Latosol</option>
+													<option value="3" <?= ($row['value'] === '3' ? 'selected' : '') ?>>Organosol</option>
+													<option value="2" <?= ($row['value'] === '2' ? 'selected' : '') ?>>Grumusol</option>
+													<option value="1" <?= ($row['value'] === '1' ? 'selected' : '') ?>>Alluvial</option>
+												</select>
+											</div>
+										</div>
+									<?php break;
+									case 2: ?>
+										<div class="form-group form-float">
+											<div class="form-line">
+												<select name="value" class="form-control">
+													<option value="3" <?= ($row['value'] === '3' ? 'selected' : '') ?>>Tinggi (300 - 500 mm)</option>
+													<option value="2" <?= ($row['value'] === '2' ? 'selected' : '') ?>>Menengah (100 - 300 mm)</option>
+													<option value="1" <?= ($row['value'] === '1' ? 'selected' : '') ?>>Renda (0 - 100 mm)h</option>
+												</select>
+											</div>
+										</div>
+									<?php break;
+									case 3: ?>
+										<div class="form-group form-float">
+											<div class="form-line">
+												<select name="value" class="form-control">
+													<option value="2" <?= ($row['value'] === '2' ? 'selected' : '') ?>>Ada</option>
+													<option value="1" <?= ($row['value'] === '1' ? 'selected' : '') ?>>Tidak Ada</option>
+												</select>
+											</div>
+										</div>
+									<?php break;
+									case 4: ?>
+										<div class="form-group form-float">
+											<div class="form-line">
+												<select name="value" class="form-control">
+													<option value="4" <?= ($row['value'] === '4' ? 'selected' : '') ?>>Basa Sedang (7,5 - 8,5)</option>
+													<option value="3" <?= ($row['value'] === '3' ? 'selected' : '') ?>>Netral (7,0 - 7,5)</option>
+													<option value="2" <?= ($row['value'] === '2' ? 'selected' : '') ?>>Asam Sedang (4,0 - 6,9)</option>
+													<option value="1" <?= ($row['value'] === '1' ? 'selected' : '') ?>>Sangat Asam (< 4)</option>
+												</select>
+											</div>
+										</div>
+									<?php break;
+									case 5: ?>
+										<div class="form-group form-float">
+											<div class="form-line">
+												<select name="value" class="form-control">
+													<option value="2" <?= ($row['value'] === '2' ? 'selected' : '') ?>>Dataran Tinggi (500 - 1500 mdpl)</option>
+													<option value="1" <?= ($row['value'] === '1' ? 'selected' : '') ?>>Dataran Rendah (0 - 500 mdpl)</option>
+												</select>
+											</div>
+										</div>
+									<?php break;
+									case 6: ?>
+										<div class="form-group form-float">
+											<div class="form-line">
+												<select name="value" class="form-control">
+													<option value="4" <?= ($row['value'] === '4' ? 'selected' : '') ?>>26,3 C - 22 C</option>
+													<option value="3" <?= ($row['value'] === '3' ? 'selected' : '') ?>>22 C - 17,1 C</option>
+													<option value="2" <?= ($row['value'] === '2' ? 'selected' : '') ?>>17,1 C - 11,1 C</option>
+													<option value="1" <?= ($row['value'] === '1' ? 'selected' : '') ?>>11,1 C - 6,2 C</option>
+												</select>
+											</div>
+										</div>
+									<?php break;
+									case 7: ?>
+										<div class="form-group form-float">
+											<div class="form-line">
+												<select name="value" class="form-control">
+													<option value="4" <?= ($row['value'] === '4' ? 'selected' : '') ?>>
+														< 20 cm</option>
+													<option value="3" <?= ($row['value'] === '3' ? 'selected' : '') ?>>20 - 50 cm</option>
+													<option value="2" <?= ($row['value'] === '2' ? 'selected' : '') ?>>50 - 75 cm</option>
+													<option value="1" <?= ($row['value'] === '1' ? 'selected' : '') ?>>> 75 cm</option>
+												</select>
+											</div>
+										</div>
+								<?php break;
+								} ?>
+								<input type="submit" name="ubah" value="Ubah" class="btn btn-primary">
+								<a href="data_kriteria_tanaman.php" class="btn btn-danger">Batal</a>
 							</form>
 						</div>
 					</div>
 				</div>
 			</section>
-
 		</div>
 
-		<footer>
-			<div class="footer clearfix mb-0 text-muted">
-				<div class="float-left">
-					<p>2020 &copy; Voler</p>
-				</div>
-				<div class="float-right">
-					<p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a
-							href="http://ahmadsaugi.com">Ahmad Saugi</a></p>
-				</div>
-			</div>
-		</footer>
+		<!-- begin:: footer -->
+		<?php include_once 'atribut/footer.php' ?>
+		<!-- end:: footer -->
 	</div>
 </div>
 
@@ -151,9 +181,8 @@ $row = $query->fetch_array(MYSQLI_ASSOC);
 <?php include_once 'atribut/foot.php'; ?>
 <!-- end:: foot -->
 
-<?php 
+<?php
 if (isset($_POST['ubah'])) {
-
 	$idalternatif = $_POST['idalternatif'];
 	$kriteria     = $_POST['kriteria'];
 	$value        = $_POST['value'];
@@ -166,9 +195,7 @@ if (isset($_POST['ubah'])) {
 		alert('Berhasil')
 		window.location=(href='data_kriteria_tanaman.php')
 		</script>";
-	}
-
-	else {
+	} else {
 		echo "<script>
 		alert('Gagal')
 		window.location=(href='data_kriteria_tanaman.php')

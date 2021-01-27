@@ -37,6 +37,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Kriteria</th>
+                                        <th>Tipe</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -50,6 +51,7 @@
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $row['criteria'] ?></td>
+                                            <td><?= ($row['tipe'] === 'max' ? 'Max' : 'Min') ?></td>
                                             <td>
                                                 <a href="data_kriteria_ubah.php?id_kriteria=<?= $row['id_criteria'] ?>" class="btn btn-modifikasi btn-primary">
                                                     <i data-feather="edit"></i>

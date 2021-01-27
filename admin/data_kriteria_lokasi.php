@@ -210,7 +210,7 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="smallModalLabel">Input Data Kriteria Lokasi</h4>
+                <h4 class="modal-title">Input Data Kriteria Lokasi</h4>
             </div>
             <div class="modal-body">
                 <form method="POST">
@@ -240,8 +240,8 @@
                                     <option value="5">Litosol</option>
                                     <option value="4">Latosol</option>
                                     <option value="3">Organosol</option>
-                                    <option value="2">Podzolik</option>
-                                    <option value="1">Litosol</option>
+                                    <option value="2">Grumusol</option>
+                                    <option value="1">Alluvial</option>
                                 </select>
                             </div>
                         </div>
@@ -326,10 +326,10 @@
 
 <!-- begin:: modal edit -->
 <div class="modal fade" id="editmodal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="smallModalLabel">Ubah Data Lokasi</h4>
+                <h4 class="modal-title">Ubah Data Lokasi</h4>
             </div>
             <div class="modal-body">
                 <div class="hasil-data"></div>
@@ -338,98 +338,6 @@
     </div>
 </div>
 <!-- end:: modal edit -->
-
-<!-- begin:: tombol aktif -->
-<a href="link" id="tombol-modal" data-toggle="modal"></a>
-<!-- end:: tombol aktif -->
-
-<!-- <div class="modal fade" id="modal4" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Latosol</h4>
-            </div>
-            <div class="modal-body">
-                <p style="text-align: justify;">Tanah latosol atau tanah inceptisol merupakan tanah yang mempunyai
-                    beberapa ciri atau karakteristik tertentu, yakni :</p>
-                <p style="text-align: justify;">a. Memiliki solum tanah yang agak tebal hingga tebal, yakni mulai
-                    sekitar 130 cm hingga lebih dari 5 meter.</p>
-                <p style="text-align: justify;">b. Tanahnya berwarna merah, coklat, hingga kekuning- kuningan.</p>
-                <p style="text-align: justify;">c. Tekstur tanah pada umumnya adalah liat.</p>
-                <p style="text-align: justify;">d. Struktur tanah pada umumnya adalah remah dengan konsistensi gembur.
-                </p>
-                <p style="text-align: justify;">e. Memiliki pH 4,5 hingga 6,5, yakni dari asam hingga agak asam.</p>
-                <p style="text-align: justify;">f. Mengandung unsur hara yang sedang hingga tinggi. Unsur hara yang
-                    terkandung di dalam tanah bisa dilihat dari warnanya. Semakin merah warna tanah maka unsur hara yang
-                    terkandung adalah semakin sedikit.</p>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link btn-danger waves-effect" data-dismiss="modal">TUTUP</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal3" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Organosol</h4>
-            </div>
-            <div class="modal-body">
-                <p style="text-align: justify;">Jenis tanah Organosol memiliki ciri sebagai berikut :</p>
-                <p style="text-align: justify;">a. Berwarna kehitaman.</p>
-                <p style="text-align: justify;">b. Mudah basah.</p>
-                <p style="text-align: justify;">c. Sangat subur.</p>
-                <p style="text-align: justify;">d. Mengandung sangat banyak bahan organik.</p>
-                <p style="text-align: justify;">e. Memiliki unsur hara yang rendah.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link btn-danger waves-effect" data-dismiss="modal">TUTUP</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal2" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Podzolik</h4>
-            </div>
-            <div class="modal-body">
-                <p style="text-align: justify;">Jenis tanah Podzolik memiliki karakteristik sebagai berikut :</p>
-                <p style="text-align: justify;">a. Biasanya dimanfaatkan untuk persawahan dan perkebunan.</p>
-                <p style="text-align: justify;">b. Tekstur tanahnya berlempung dan berpasir.</p>
-                <p style="text-align: justify;">c. Memiliki unsur aluminum dan besi yang tinggi.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link btn-danger waves-effect" data-dismiss="modal">TUTUP</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal1" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Litosol</h4>
-            </div>
-            <div class="modal-body">
-                <p style="text-align: justify;">Jenis Tanah Litosol memiliki karakteristik sebagai berikut :</p>
-                <p style="text-align: justify;">a. Mempunyai penampang yang besar, berbentuk kerikil, pasir, dan
-                    bebatuan kecil.</p>
-                <p style="text-align: justify;">b. Terbentuk dari proses meletusnya gunung berapi.</p>
-                <p style="text-align: justify;">c. Mempunyai kandungan unsur hara yang sedikit sekali.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link btn-danger waves-effect" data-dismiss="modal">TUTUP</button>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <!-- begin:: foot -->
 <?php include_once 'atribut/foot.php'; ?>
@@ -451,21 +359,6 @@
                     $('.hasil-data').html(data);
                 }
             });
-        });
-
-        $('#kriteria1').change(function() {
-            var val = $(this).val();
-
-            if (val == 4) {
-                $('#tombol-modal').attr('href', '#modal4').trigger("click");
-            } else if (val == 3) {
-                $('#tombol-modal').attr('href', '#modal3').trigger("click");
-            } else if (val == 2) {
-                $('#tombol-modal').attr('href', '#modal2').trigger("click");
-            } else if (val == 1) {
-                $('#tombol-modal').attr('href', '#modal1').trigger("click");
-            }
-
         });
     });
 </script>
@@ -519,7 +412,7 @@ if (isset($_POST['tambah'])) {
 
     $array_kriteria = array(
         ['id_kriteria' => $_POST['id_kriteria1'], 'kriteria' => 'Jenis Tanah', 'weight' => $_POST['kriteria1']],
-        ['id_kriteria' => $_POST['id_kriteria2'], 'kriteria' => 'Curah Hujan', 'weight' => ''],
+        ['id_kriteria' => $_POST['id_kriteria2'], 'kriteria' => 'Curah Hujan', 'weight' => $_POST['kriteria2']],
         ['id_kriteria' => $_POST['id_kriteria3'], 'kriteria' => 'Drainase', 'weight' => $_POST['kriteria3']],
         ['id_kriteria' => $_POST['id_kriteria4'], 'kriteria' => 'pH', 'weight' => $_POST['kriteria4']],
         ['id_kriteria' => $_POST['id_kriteria5'], 'kriteria' => 'Ketinggian Tempat', 'weight' => $_POST['kriteria5']],

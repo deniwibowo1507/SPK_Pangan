@@ -81,7 +81,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="smallModalLabel">Input Nama Tanaman</h4>
+                <h4 class="modal-title">Input Nama Tanaman</h4>
             </div>
             <div class="modal-body">
                 <?php
@@ -118,7 +118,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="smallModalLabel">Ubah Lokasi Penanaman</h4>
+                <h4 class="modal-title">Ubah Lokasi Penanaman</h4>
             </div>
             <div class="modal-body">
                 <div class="hasil-data"></div>

@@ -1,136 +1,100 @@
+<!-- begin:: head -->
 <?php include_once 'atribut/head.php'; ?>
+<!-- end:: head -->
 
-<?php 
+<?php
 $id_kriteria = $_GET['id_kriteria'];
-$sql      = "SELECT * FROM tb_kriteria WHERE id_criteria = '$id_kriteria'";
-$query    = $connect->query($sql);
-$row      = $query->fetch_array(MYSQLI_ASSOC);
-$kriteria = json_decode($row['bulan'], true);
+$sql         = "SELECT * FROM tb_kriteria WHERE id_criteria = '$id_kriteria'";
+$query       = $connect->query($sql);
+$row         = $query->fetch_array(MYSQLI_ASSOC);
 ?>
 
-<!-- Page Loader -->
-<div class="page-loader-wrapper">
-    <div class="loader">
-        <div class="preloader">
-            <div class="spinner-layer pl-red">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-        </div>
-        <p>Please wait...</p>
-    </div>
-</div>
-<!-- #END# Page Loader -->
-<!-- Overlay For Sidebars -->
-<div class="overlay"></div>
-<!-- #END# Overlay For Sidebars -->
-<!-- Search Bar -->
-<div class="search-bar">
-    <div class="search-icon">
-        <i class="material-icons">search</i>
-    </div>
-    <input type="text" placeholder="START TYPING...">
-    <div class="close-search">
-        <i class="material-icons">close</i>
-    </div>
-</div>
-
-<!-- Untuk Menu -->
-<?php include_once 'atribut/menu.php'; ?>
-
-<section class="content">
-    <div class="container-fluid">
-
-        <!-- Body Copy -->
-        <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="header">
-                        <h2>
-                            Ubah Data Kriteria
-                        </h2>
+<div id="app">
+    <!-- begin:: sidebar -->
+    <?php include_once 'atribut/sidebar.php'; ?>
+    <!-- end:: sidebar -->
+    <div id="main">
+        <!-- begin:: navbar -->
+        <?php include_once 'atribut/navbar.php'; ?>
+        <!-- end:: navbar -->
+        <div class="main-content container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <h3 class="card-title">Ubah Data Kriteria</h3>
                     </div>
-                    <div class="body">
-                        <form method="POST">
-                            <div class="col-sm-12">
-                                <label>Nama Kriteria</label>
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" name="nm_kriteria" value="<?= $row['criteria'] ?>" />
-                                            </div>
+                    <div class="col-12 col-md-6">
+                        <nav aria-label="breadcrumb" class='breadcrumb-header text-right'>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Breadcrumb</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+            <section class="section">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                <div class="col-sm-12">
+                                    <label>Nama Kriteria</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="nm_kriteria" value="<?= $row['criteria'] ?>" />
+                                        </div>
+                                    </div>
+                                    <label>Tipe</label>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select name="tipe" class="form-control">
+                                                <option value="max" <?= ($row['tipe'] === 'max' ? 'selected' : '') ?>>Max</option>
+                                                <option value="min" <?= ($row['tipe'] === 'min' ? 'selected' : '') ?>>Min</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                                <?php for ($i = 0; $i < count($kriteria); $i++) { ?>
-                                    <!-- begin:: kriteria 1 curah hujan -->
-                                    <label><?= $kriteria[$i]['bulan'] ?></label>
-                                    <div class="row clearfix">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <div class="form-line">
-                                                    <input type="hidden" name="id_bulan[]" value="<?= $kriteria[$i]['id_bulan'] ?>" />
-                                                    <input type="hidden" name="nm_bulan[]" value="<?= $kriteria[$i]['bulan'] ?>" />
-                                                    <input type="text" class="form-control" name="value[]" value="<?= $kriteria[$i]['value'] ?>" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end:: kriteria 1 curah hujan -->
-                                <?php } ?>
-                            </div>
-                            <input type="submit" name="ubah" value="UBAH" class="btn btn-link waves-effect">
-                            <a href="data_kriteria.php"><button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Batal</button></a>
-
-                        </form>
+                                <button type="submit" name="ubah" class="btn btn-success">UBAH</button>
+                                <a href="data_kriteria.php" class="btn btn-danger">BATAL</a>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
 
+        <!-- begin:: footer -->
+        <?php include_once 'atribut/footer.php' ?>
+        <!-- end:: footer -->
     </div>
-</section>
+</div>
 
+<!-- begin:: foot -->
 <?php include_once 'atribut/foot.php'; ?>
+<!-- end:: foot -->
 
-<?php 
+<?php
 if (isset($_POST['ubah'])) {
+    $kriteria = $_POST['nm_kriteria'];
+    $tipe     = $_POST['tipe'];
 
-    $nm_kriteria = $_POST['nm_kriteria'];
-    $id_bulan = $_POST['id_bulan'];
-    $nm_bulan = $_POST['nm_bulan'];
-    $vl_bulan = $_POST['value'];
-
-    $array_bulan = array();
-    for ($i = 0; $i < count($id_bulan); $i++) { 
-        $array_bulan[] = [
-            'id_bulan' => $id_bulan[$i],
-            'bulan'    => $nm_bulan[$i],
-            'value'    => $vl_bulan[$i]
-        ];
-    }
-    $data_bulan = json_encode($array_bulan);
-    
-    $query  = "UPDATE tb_kriteria SET criteria = '$nm_kriteria', bulan = '$data_bulan' WHERE id_criteria = '$id_kriteria' ";
+    $query  = "UPDATE tb_kriteria SET criteria = '$kriteria', tipe = '$tipe' WHERE id_criteria = '$id_kriteria'";
     $result = $connect->query($query);
 
     if ($result) {
         echo "<script>
-        alert('Berhasil')
-        window.location=(href='data_kriteria.php')
-        </script>";
-    }
-
-    else {
+		alert('Berhasil')
+		window.location=(href='data_kriteria.php')
+		</script>";
+    } else {
         echo "<script>
-        alert('Gagal')
-        window.location=(href='data_kriteria.php')
-        </script>";
+		alert('Gagal')
+		window.location=(href='data_kriteria.php')
+		</script>";
     }
 }
 ?>

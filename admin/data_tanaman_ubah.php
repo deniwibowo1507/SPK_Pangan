@@ -10,7 +10,7 @@ $row = $query->fetch_array(MYSQLI_ASSOC);
 	<div class="col-sm-12">
 		<div class="form-group form-float">
 			<div class="form-line">
-				<input type="text" class="form-control" name="id" value="<?php echo $row['id_alternative'] ?>">
+				<input type="text" class="form-control" name="id" value="<?php echo $row['id_alternative'] ?>" readonly="readonly">
 			</div>
 		</div>
 		<div class="form-group form-float">
