@@ -3,7 +3,7 @@
 include_once '../database/koneksi.php';
 session_start();
 if (!isset($_SESSION["inpusername"])) {
-    header("Location: ../../login.php?&masuk");
+    header("Location: ../");
     exit;
 }
 
