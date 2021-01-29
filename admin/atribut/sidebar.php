@@ -1,7 +1,7 @@
 <div id="sidebar" class='active'>
     <div class="sidebar-wrapper active">
-        <div class="sidebar-header">
-            <img src="assets/images/logo.svg" alt="" srcset="">
+        <div class="sidebar-header text-center">
+            <img src="assets/images/logo.png" alt="" srcset="">
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
