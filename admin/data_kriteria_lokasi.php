@@ -83,10 +83,10 @@
                                                         echo 'Organosol';
                                                         break;
                                                     case 2:
-                                                        echo 'Podzolik';
+                                                        echo 'Grumusol';
                                                         break;
                                                     case 1:
-                                                        echo 'Litosol';
+                                                        echo 'Alluvial';
                                                         break;
                                                 }
                                                 ?>

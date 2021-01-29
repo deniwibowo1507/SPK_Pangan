@@ -668,7 +668,7 @@ function get_sQ($Q)
                       }
 
                       foreach ($E as $key => $value) {
-                        $hasil1[$alternatif[$key]] = array_sum($value);
+                        $hasil1[$key] = array_sum($value);
 
                         echo "<tr>";
                         echo "<td>" . $alternatif[$key] . "</td>";
@@ -707,7 +707,7 @@ function get_sQ($Q)
                       foreach ($hasil1 as $key => $value) {
                         echo "<tr>";
                         echo "<td>" . $ranking++ . "</td>";
-                        echo "<td>" . $key . "</td>";
+                        echo "<td>" . $alternatif[$key] . "</td>";
                         echo "<td>" . $value . "</td>";
                         echo "</tr>";
                       }
@@ -990,3 +990,25 @@ function get_sQ($Q)
 <!-- begin:: foot -->
 <?php include_once './atribut/foot.php'; ?>
 <!-- end:: foot -->
+
+<?php
+if (isset($_POST['proses'])) {
+  $hasil_electre = json_encode($hasil1);
+  $hasil_vikor = json_encode($Q);
+
+  $sql    = "SELECT * FROM tb_ranking WHERE id_lokasi = '$id_lokasi' ";
+  $tambah = mysqli_query($connect, $sql);
+  $row    = mysqli_fetch_row($tambah);
+  $rowCount = mysqli_num_rows($tambah);
+
+  if ($rowCount === 0) {
+    $sql   = "INSERT INTO tb_ranking (id_lokasi, hasil_electre, hasil_vikor) VALUES ('$id_lokasi', '$hasil_electre', '$hasil_vikor')";
+    $query = $connect->query($sql);
+  } else {
+    $sql   = "DELETE FROM tb_ranking WHERE id_lokasi = '$id_lokasi'";
+    $query = mysqli_query($connect, $sql);
+    $sql2  = "INSERT INTO tb_ranking (id_lokasi, hasil_electre, hasil_vikor) VALUES ('$id_lokasi', '$hasil_electre', '$hasil_vikor')";
+    $query = mysqli_query($connect, $sql2);
+  }
+}
+?>

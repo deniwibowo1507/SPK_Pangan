@@ -23,11 +23,11 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Nama Pengunjung</th>
-                <th>Tanggal Akses</th>
-                <th>Lokasi</th>
-                <th>Bulan Penanaman</th>
+                <th>Nama</th>
+                <th>No. Hp</th>
                 <th>Alamat</th>
+                <th>Lokasi</th>
+                <th>Tanggal Akses</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -38,13 +38,13 @@
                 <tr>
                   <td><?= $no++ ?></td>
                   <td><?= $row['nama'] ?></td>
-                  <td><?= $row['tgl_akses'] ?></td>
-                  <td><?= $row['nama_lokasi'] ?></td>
-                  <td><?= bulan($row['bulan']) . ", " . bulan(date($row['bulan']) + 1) . ", " . bulan(date($row['bulan']) + 2) ?></td>
+                  <td><?= $row['no_hp'] ?></td>
                   <td><?= $row['alamat'] ?></td>
+                  <td><?= $row['nama_lokasi'] ?></td>
+                  <td><?= $row['tgl_akses'] ?></td>
                   <td>
-                    <a href="history_detail.php?id_history=<?= $row['id_history'] ?>" target="">Detail</a>
-                    <a href="history_cetak.php?id_history=<?= $row['id_history'] ?>" target="_blank">Cetak</a>
+                    <a href="riwayat_detail.php?id_history=<?= $row['id_history'] ?>" class="btn btn-primary" target="_blank">Detail</a>
+                    <a href="riwayat_cetak.php?id_history=<?= $row['id_history'] ?>" class="btn btn-info" target="_blank">Cetak</a>
                   </td>
                 </tr>
               <?php } ?>

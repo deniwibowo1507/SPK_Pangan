@@ -3,8 +3,6 @@
 <!-- end:: head -->
 
 <?php
-error_reporting(0);
-
 // untuk kriteria
 $bobot = [];
 $criteria = [];
@@ -488,7 +486,9 @@ function get_sQ($Q)
                           $sigma_c = 0;
                           foreach ($C as $k => $cl) {
                             foreach ($cl as $l => $value) {
-                              $sigma_c += $value;
+                              if (is_numeric($value)) {
+                                $sigma_c += $value;
+                              }
                             }
                           }
                           $threshold_c = $sigma_c / ($m * ($m - 1));
@@ -576,7 +576,9 @@ function get_sQ($Q)
                           $sigma_d = 0;
                           foreach ($D as $k => $dl) {
                             foreach ($dl as $l => $value) {
-                              $sigma_d += $value;
+                              if (is_numeric($value)) {
+                                $sigma_d += $value;
+                              }
                             }
                           }
                           $threshold_d = $sigma_d / ($m * ($m - 1));
@@ -836,7 +838,8 @@ function get_sQ($Q)
                                 foreach ($sample as $i => $kriteria) {
                                   $N[$i] = array();
                                   foreach ($kriteria as $j => $nilai) {
-                                    $N[$i][$j] = ($f_plus[$j] - $nilai) / ($f_plus[$j] - $f_min[$j]);
+                                    $resultCount = ($f_plus[$j] - $nilai);
+                                    $N[$i][$j] = $resultCount === 0 ? 0 : $resultCount / ($f_plus[$j] - $f_min[$j]);
                                   }
                                 }
                                 ?>
