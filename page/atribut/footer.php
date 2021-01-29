@@ -4,7 +4,8 @@
             <div class="col-lg-8 text-center">
                 <h2 class="mt-0 text-white">Let's Get In Touch!</h2>
                 <hr class="divider my-4" />
-                <p class="text-white mb-5">Ready to start your next project with us? Give us a call or send us an email and we will get back to you as soon as possible!</p>
+                <p class="text-white mb-5">Ready to start your next project with us? Give us a call or send us an email
+                    and we will get back to you as soon as possible!</p>
             </div>
         </div>
         <div class="row">
@@ -22,6 +23,12 @@
 
 <footer class="bg-light py-5">
     <div class="container">
-        <div class="small text-center text-muted">Copyright © 2020 - Start Bootstrap</div>
+        <div class="small text-center text-muted">
+            Copyright &copy;
+            <script>
+                document.write(new Date().getFullYear());
+            </script>
+            <a href="https://alanlengkoan.netlify.app/" target="_blank">AL</a> - Sistem Pendukung Keputusan.
+        </div>
     </div>
 </footer>

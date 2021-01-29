@@ -751,7 +751,7 @@ function get_sQ($Q)
                                 foreach ($hasil1 as $key => $value) {
                                   echo "<tr>";
                                   echo "<td>" . $ranking++ . "</td>";
-                                  echo "<td>" . $alternatif[$key][0] . "</td>";
+                                  echo "<td>" . $key . "</td>";
                                   echo "<td>" . $value . "</td>";
                                   echo "</tr>";
                                 }
