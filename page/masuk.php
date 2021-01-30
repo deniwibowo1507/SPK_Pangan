@@ -83,18 +83,16 @@ if (isset($_POST["masuk"])) {
                             <!-- end:: alert -->
                             <form method="post" class="form-box">
                                 <div class="form-group position-relative has-icon-left">
-                                    <label for="username">Username</label>
                                     <div class="position-relative">
-                                        <input type="text" name="inpusername" class="form-control" id="username" required="required" />
+                                        <input type="text" name="inpusername" class="form-control" id="username" required="required" placeholder="Username" />
                                         <div class="form-control-icon">
                                             <i data-feather="user"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group position-relative has-icon-left">
-                                    <label for="password">Password</label>
                                     <div class="position-relative">
-                                        <input type="password" name="inppassword" class="form-control" id="password" required="required" />
+                                        <input type="password" name="inppassword" class="form-control" id="password" required="required" placeholder="Password" />
                                         <div class="form-control-icon">
                                             <i data-feather="lock"></i>
                                         </div>
