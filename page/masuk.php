@@ -94,7 +94,7 @@ if (isset($_POST["masuk"])) {
                                 <div class="form-group position-relative has-icon-left">
                                     <label for="password">Password</label>
                                     <div class="position-relative">
-                                        <input type="text" name="inppassword" class="form-control" id="password" required="required" />
+                                        <input type="password" name="inppassword" class="form-control" id="password" required="required" />
                                         <div class="form-control-icon">
                                             <i data-feather="lock"></i>
                                         </div>

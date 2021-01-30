@@ -1,8 +1,8 @@
 <?php 
 include_once '../database/koneksi.php';
 if (isset($_POST['ubah'])) {
-    $id  = $_POST['id'];
-    $lokasi  = $_POST['lokasi'];
+    $id     = $_POST['id'];
+    $lokasi = $_POST['lokasi'];
 
     $query  = "UPDATE tb_lokasi SET nama_lokasi = '$lokasi' WHERE id_lokasi = '$id'";
     $result = $connect->query($query);

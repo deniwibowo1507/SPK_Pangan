@@ -14,7 +14,7 @@
             <div class="page-title">
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <h3 class="card-title">Data Lokasi Penanaman</h3>
+                        <h3 class="card-title">Tanaman</h3>
                     </div>
                     <div class="col-12 col-md-6">
                         <nav aria-label="breadcrumb" class='breadcrumb-header text-right'>
@@ -49,18 +49,20 @@
                                     $sql   = "SELECT * FROM tb_alternatif";
                                     $query = $connect->query($sql);
                                     while ($row = $query->fetch_array()) { ?>
-                                        <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row['name'] ?></td>
-                                            <td>
-                                                <a href="#editmodal" class="btn btn-modifikasi btn-primary waves-effect" data-toggle="modal" data-id="<?= $row['id_alternative'] ?>">
-                                                    <i data-feather="edit"></i>
-                                                </a>
-                                                <a href="data_tanaman_hapus.php?id_tanaman=<?= $row['id_alternative'] ?>" class="btn btn-modifikasi btn-danger waves-effect">
-                                                    <i data-feather="delete"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td><?= $no++ ?></td>
+                                        <td><?= $row['name'] ?></td>
+                                        <td>
+                                            <a href="#editmodal" class="btn btn-modifikasi btn-primary waves-effect"
+                                                data-toggle="modal" data-id="<?= $row['id_alternative'] ?>">
+                                                <i data-feather="edit"></i>
+                                            </a>
+                                            <a href="data_tanaman_hapus.php?id_tanaman=<?= $row['id_alternative'] ?>"
+                                                class="btn btn-modifikasi btn-danger waves-effect">
+                                                <i data-feather="delete"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -95,11 +97,12 @@
                 ?>
 
                 <form method="POST">
+                    <input type="hidden" name="inp_idalternative" value="<?= $kodeOtomatis; ?>" />
+                    
                     <div class="col-sm-12">
                         <div class="form-group form-float">
                             <div class="form-line">
                                 <label class="form-label">Nama Tanaman</label>
-                                <input type="hidden" name="inp_idalternative" value="<?php echo $kodeOtomatis; ?>" />
                                 <input type="text" class="form-control" name="inp_tan" required="required">
                             </div>
                         </div>
@@ -136,15 +139,15 @@
 <script src="assets/js/vendors.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#editmodal').on('show.bs.modal', function(e) {
+    $(document).ready(function () {
+        $('#editmodal').on('show.bs.modal', function (e) {
             var id_tanaman = $(e.relatedTarget).data('id');
 
             $.ajax({
                 type: 'get',
                 url: 'data_tanaman_ubah.php',
                 data: 'id_tanaman=' + id_tanaman,
-                success: function(data) {
+                success: function (data) {
                     $('.hasil-data').html(data);
                 }
             });

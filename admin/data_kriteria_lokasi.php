@@ -14,7 +14,7 @@
             <div class="page-title">
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <h3 class="card-title">Data Lokasi Penanaman</h3>
+                        <h3 class="card-title">Kriteria Lokasi</h3>
                     </div>
                     <div class="col-12 col-md-6">
                         <nav aria-label="breadcrumb" class='breadcrumb-header text-right'>

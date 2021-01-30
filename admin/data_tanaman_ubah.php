@@ -1,9 +1,9 @@
 <?php
 include_once '../database/koneksi.php';
 $id_tanaman = $_GET['id_tanaman'];
-$sql   = "SELECT * FROM tb_alternatif WHERE id_alternative = '$id_tanaman'";
-$query = $connect->query($sql);
-$row = $query->fetch_array(MYSQLI_ASSOC);
+$sql        = "SELECT * FROM tb_alternatif WHERE id_alternative = '$id_tanaman'";
+$query      = $connect->query($sql);
+$row        = $query->fetch_array(MYSQLI_ASSOC);
 ?>
 
 <form method="POST">

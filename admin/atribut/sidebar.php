@@ -11,38 +11,51 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+
+                <li class='sidebar-title'>Master</li>
                 <li class="sidebar-item">
-                    <a href="data_kriteria_lokasi.php" class='sidebar-link'>
+                    <a href="data_lokasi.php" class='sidebar-link'>
                         <i data-feather="map-pin" width="20"></i>
-                        <span>Lokasi Penanaman</span>
+                        <span>Lokasi</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
                     <a href="data_tanaman.php" class='sidebar-link'>
                         <i data-feather="command" width="20"></i>
                         <span>Tanaman</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="data_kriteria_tanaman.php" class='sidebar-link'>
-                        <i data-feather="feather" width="20"></i>
-                        <span>Data Tanaman</span>
+                    <a href="data_kriteria.php" class='sidebar-link'>
+                        <i data-feather="file" width="20"></i>
+                        <span>Kriteria</span>
+                    </a>
+                </li>
+
+                <li class='sidebar-title'>Pustaka</li>
+                <li class="sidebar-item">
+                    <a href="data_kriteria_lokasi.php" class='sidebar-link'>
+                        <i data-feather="map-pin" width="20"></i>
+                        <span>Kriteria Lokasi</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="data_kriteria.php" class='sidebar-link'>
-                        <i data-feather="file" width="20"></i>
-                        <span>Data Kriteria</span>
+                    <a href="data_kriteria_tanaman.php" class='sidebar-link'>
+                        <i data-feather="feather" width="20"></i>
+                        <span>Kriteria Tanaman</span>
                     </a>
                 </li>
+
+                <li class='sidebar-title'>Proses</li>
                 <li class="sidebar-item">
                     <a href="proses_algoritma.php" class='sidebar-link'>
                         <i data-feather="loader" width="20"></i>
-                        <span>Proses Algoritma</span>
+                        <span>Algoritma</span>
                     </a>
                 </li>
+
+                <li class='sidebar-title'>Laporan</li>
                 <li class="sidebar-item">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="laporan.php" class='sidebar-link'>
                         <i data-feather="file-text" width="20"></i>
                         <span>Laporan</span>
                     </a>
