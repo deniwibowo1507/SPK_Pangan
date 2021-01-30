@@ -185,8 +185,8 @@
                                                 ?>
                                             </td>
                                             <td>
-                                                <a href="#editmodal" class="btn btn-modifikasi btn-primary" data-toggle='modal' data-id="<?= $row['id_lokasi'] ?>"><i data-feather="edit"></i></a>
-                                                <a href="data_kriteria_lokasi_hapus.php?id_lokasi=<?= $row['id_lokasi'] ?>" class="btn btn-modifikasi btn-danger waves-effect"><i data-feather="delete"></i></a>
+                                                <a href="#editmodal" class="btn btn-block btn-primary" data-toggle='modal' data-id="<?= $row['id_lokasi'] ?>"><i data-feather="edit"></i></a>
+                                                <a href="data_kriteria_lokasi_hapus.php?id_lokasi=<?= $row['id_lokasi'] ?>" class="btn btn-block btn-danger waves-effect"><i data-feather="delete"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>

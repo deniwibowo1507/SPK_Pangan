@@ -57,8 +57,8 @@
                                             <td><?= $row['nama_lokasi'] ?></td>
                                             <td><?= $row['tgl_akses'] ?></td>
                                             <td>
-                                                <a href="laporan_detail.php?id_history=<?= $row['id_history'] ?>" class="btn btn-modifikasi btn-primary" target="_blank">Detail</a>
-                                                <a href="laporan_cetak.php?id_history=<?= $row['id_history'] ?>" class="btn btn-modifikasi btn-info" target="_blank">Cetak</a>
+                                                <a href="laporan_detail.php?id_history=<?= $row['id_history'] ?>" class="btn btn-block btn-primary" target="_blank"><i data-feather="info"></i></a>
+                                                <a href="laporan_cetak.php?id_history=<?= $row['id_history'] ?>" class="btn btn-block btn-info" target="_blank"><i data-feather="printer"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>

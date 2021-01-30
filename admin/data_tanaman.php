@@ -53,12 +53,12 @@
                                         <td><?= $no++ ?></td>
                                         <td><?= $row['name'] ?></td>
                                         <td>
-                                            <a href="#editmodal" class="btn btn-modifikasi btn-primary waves-effect"
+                                            <a href="#editmodal" class="btn btn-block btn-primary waves-effect"
                                                 data-toggle="modal" data-id="<?= $row['id_alternative'] ?>">
                                                 <i data-feather="edit"></i>
                                             </a>
                                             <a href="data_tanaman_hapus.php?id_tanaman=<?= $row['id_alternative'] ?>"
-                                                class="btn btn-modifikasi btn-danger waves-effect">
+                                                class="btn btn-block btn-danger waves-effect">
                                                 <i data-feather="delete"></i>
                                             </a>
                                         </td>

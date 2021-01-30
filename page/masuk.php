@@ -102,6 +102,7 @@ if (isset($_POST["masuk"])) {
                                 </div>
                                 <div class="clearfix">
                                     <button type="submit" name="masuk" class="btn btn-primary btn-block">Masuk</button>
+                                    <a href="beranda.php" class="btn btn-danger btn-block">Batal</a>
                                 </div>
                             </form>
                         </div>

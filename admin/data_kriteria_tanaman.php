@@ -58,7 +58,7 @@
                                             <td><?= $row['criteria'] ?></td>
                                             <td><?= $row['value'] ?></td>
                                             <td>
-                                                <a href="data_kriteria_tanaman_ubah.php?id_alternatif=<?= $row['id_alternative'] ?>&id_kriteria=<?= $row['id_criteria'] ?>" class='btn btn-modifikasi btn-primary'>
+                                                <a href="data_kriteria_tanaman_ubah.php?id_alternatif=<?= $row['id_alternative'] ?>&id_kriteria=<?= $row['id_criteria'] ?>" class='btn btn-block btn-primary'>
                                                     <i data-feather="edit"></i>
                                                 </a>
                                             </td>
