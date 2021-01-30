@@ -19,8 +19,8 @@
                     <div class="col-12 col-md-6">
                         <nav aria-label="breadcrumb" class='breadcrumb-header text-right'>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Breadcrumb</li>
+                                <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Kriteria</li>
                             </ol>
                         </nav>
                     </div>
