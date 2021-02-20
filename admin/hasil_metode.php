@@ -311,16 +311,13 @@ function get_sQ($Q)
                               <thead>
                                 <tr>
                                   <th></th>
-                                  <?php
-                                  foreach ($result2 as $key => $value) {
-                                    echo "<th>" . $value['name'] . "</th>";
-                                  }
-                                  ?>
+                                  <?php foreach ($result2 as $key => $value) { ?>
+                                    <th><?= $value['name'] ?></th>
+                                  <?php } ?>
                                 </tr>
                               </thead>
                               <tbody>
                                 <?php
-
                                 $c = array();
                                 $c_index = '';
                                 for ($k = 1; $k <= $m; $k++) {
