@@ -127,6 +127,9 @@ function get_sQ($Q)
               <li class="nav-item" role="presentation">
                 <a class="nav-link" id="vikor-tab" data-toggle="tab" href="#vikor" role="tab" aria-controls="vikor" aria-selected="false">Vikor</a>
               </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="vikor-tab" data-toggle="tab" href="#hasil" role="tab" aria-controls="hasil" aria-selected="false">Hasil</a>
+              </li>
             </ul>
           </div>
           <div class="card-content">
@@ -727,40 +730,6 @@ function get_sQ($Q)
                         </div>
                       </div>
                     </div>
-
-                    <div class="card">
-                      <div class="card-header" id="headingEmpatbelas" data-toggle="collapse" data-target="#collapseEmpatbelas" aria-expanded="false" aria-controls="collapseEmpatbelas" role="button">
-                        <span class="collapsed collapse-title">Ranking Tanaman</span>
-                      </div>
-                      <div id="collapseEmpatbelas" class="collapse pt-1" aria-labelledby="headingEmpatbelas" data-parent="#cardAccordion">
-                        <div class="card-body">
-                          <div class="table-responsive">
-                            <table class="table table-striped" id="table1">
-                              <thead>
-                                <tr>
-                                  <th>Ranking</th>
-                                  <th>Nama Tanaman</th>
-                                  <th>Poin</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php
-                                arsort($hasil1);
-                                $ranking = 1;
-                                foreach ($hasil1 as $key => $value) {
-                                  echo "<tr>";
-                                  echo "<td>" . $ranking++ . "</td>";
-                                  echo "<td>" . $key . "</td>";
-                                  echo "<td>" . $value . "</td>";
-                                  echo "</tr>";
-                                }
-                                ?>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <!-- end:: metode electre -->
@@ -998,40 +967,118 @@ function get_sQ($Q)
                         </div>
                       </div>
                     </div>
-
+                  </div>
+                </div>
+                <!-- end:: metode vikor -->
+                <!-- begin:: hasil -->
+                <div class="tab-pane fade" id="hasil" role="tabpanel" aria-labelledby="hasil-tab">
+                  <div class="accordion" id="cardAccordion">
                     <div class="card">
-                      <div class="card-header" id="headingTujuh" data-toggle="collapse" data-target="#collapseTujuh" aria-expanded="false" aria-controls="collapseTujuh" role="button">
+                      <div class="card-header">
                         <span class="collapsed collapse-title">Perangkingan</span>
                       </div>
-                      <div id="collapseTujuh" class="collapse pt-1" aria-labelledby="headingTujuh" data-parent="#cardAccordion">
-                        <div class="card-body">
-                          <div class="table-responsive">
-                            <table class="table table-striped" id="table1">
-                              <thead>
-                                <tr>
-                                  <th>Alternatif</th>
-                                  <th>Nilai</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php
-                                $Q = get_Q($S, $R);
-                                arsort($Q);
-                                foreach ($Q as $key => $value) : ?>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <h4>Electre</h4>
+                            <div class="table-responsive">
+                              <table class="table table-striped" id="table1">
+                                <thead>
                                   <tr>
-                                    <td><?= $alternatif[$key] ?></td>
-                                    <td><?= $value ?></td>
+                                    <th>Ranking</th>
+                                    <th>Nama Tanaman</th>
+                                    <th>Poin</th>
                                   </tr>
-                                <?php endforeach; ?>
-                              </tbody>
-                            </table>
+                                </thead>
+                                <tbody>
+                                  <?php
+                                  arsort($hasil1);
+                                  $rankingElectre = 1;
+                                  $totalElectre = [];
+                                  foreach ($hasil1 as $key => $value) :
+                                    $totalElectre[] = $value;
+                                  ?>
+                                    <tr>
+                                      <td><?= $rankingElectre++ ?></td>
+                                      <td><?= $key ?></td>
+                                      <td><?= $value ?></td>
+                                    </tr>
+                                  <?php endforeach ?>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <h4>Vikor</h4>
+                            <div class="table-responsive">
+                              <table class="table table-striped" id="table1">
+                                <thead>
+                                  <tr>
+                                    <th>Rangking</th>
+                                    <th>Alternatif</th>
+                                    <th>Poin</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <?php
+                                  $Q = get_Q($S, $R);
+                                  arsort($Q);
+                                  $rankingVikor = 1;
+                                  $totalVikor = [];
+                                  foreach ($Q as $key => $value) :
+                                    $totalVikor[] = $value;
+                                  ?>
+                                    <tr>
+                                      <td><?= $rankingVikor++ ?></td>
+                                      <td><?= $alternatif[$key] ?></td>
+                                      <td><?= $value ?></td>
+                                    </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+
+                    <div class="card">
+                      <div class="card-header">
+                        <span class="collapsed collapse-title">Keakuratan</span>
+                      </div>
+                      <div class="card-body">
+                        <?php
+                        $metodeElectre = number_format((array_sum($totalElectre) / count($hasil1)), 2);
+                        $metodeVikor   = number_format((array_sum($totalVikor) / count($Q)), 2);
+
+                        $presentaseElectre = number_format((100 - ($metodeElectre / 100)), 2);
+                        $presentaseVikor   = number_format((100 - ($metodeVikor / 100)), 2);
+                        ?>
+                        <p>
+                          \[Metode Electre = {Jumlah Hasil Akhir \over Banyak Data} = {<?= number_format(array_sum($totalElectre), 2) ?> \over <?= count($hasil1) ?>} = <?= $metodeElectre ?>\]
+                          \[Metode Vikor = {Jumlah Hasil Akhir \over Banyak Data} = {<?= number_format(array_sum($totalVikor), 2) ?> \over <?= count($Q) ?>} = <?= $metodeVikor ?>\]
+                        </p>
+                        <hr>
+                        <p>
+                          \[Presentase Metode Electre = 100 - {<?= $metodeElectre ?> \over 100} = <?= $presentaseElectre ?> \% \]
+                          \[Presentase Metode Vikor = 100 - {<?= $metodeVikor ?> \over 100} = <?= $presentaseVikor ?> \% \]
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="card">
+                      <div class="card-header">
+                        <span class="collapsed collapse-title">Chart</span>
+                      </div>
+                      <div class="card-body">
+                        <figure class="highcharts-figure">
+                          <div id="container"></div>
+                        </figure>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <!-- end:: metode vikor -->
+                <!-- end:: hasil -->
               </div>
             </div>
           </div>
@@ -1049,3 +1096,74 @@ function get_sQ($Q)
 <!-- begin:: foot -->
 <?php include_once 'atribut/foot.php'; ?>
 <!-- end:: foot -->
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script>
+  // Create the chart
+  Highcharts.chart('container', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Keakuratan'
+    },
+    subtitle: {
+      text: 'Metode Electre & Vikor'
+    },
+    accessibility: {
+      announceNewData: {
+        enabled: true
+      }
+    },
+    xAxis: {
+      type: 'category'
+    },
+    yAxis: {
+      title: {
+        text: 'Tingkat keakuratan'
+      }
+
+    },
+    legend: {
+      enabled: false
+    },
+    plotOptions: {
+      series: {
+        borderWidth: 0,
+        dataLabels: {
+          enabled: true,
+          format: '{point.y:.1f}%'
+        }
+      }
+    },
+
+    tooltip: {
+      headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+      pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    series: [{
+      name: "Browsers",
+      colorByPoint: true,
+      data: [{
+          name: "Metode Electre",
+          y: <?= $presentaseElectre ?>,
+          drilldown: "Metode Electre"
+        },
+        {
+          name: "Metode Vikor",
+          y: <?= $presentaseVikor ?>,
+          drilldown: "Metode Vikor"
+        },
+      ]
+    }],
+  });
+</script>
