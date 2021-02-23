@@ -113,17 +113,17 @@ function get_sQ($Q)
         <!-- begin:: menu tab -->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="electre-tab" data-toggle="tab" href="#electre" role="tab" aria-controls="electre" aria-selected="true">Electre</a>
+            <a class="nav-link active" id="hasil-tab" data-toggle="tab" href="#hasil" role="tab" aria-controls="hasil" aria-selected="false">Hasil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="electre-tab" data-toggle="tab" href="#electre" role="tab" aria-controls="electre" aria-selected="true">Electre</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="vikor-tab" data-toggle="tab" href="#vikor" role="tab" aria-controls="vikor" aria-selected="false">Vikor</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" id="hasil-tab" data-toggle="tab" href="#hasil" role="tab" aria-controls="hasil" aria-selected="false">Hasil</a>
-          </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="electre" role="tabpanel" aria-labelledby="electre-tab">
+          <div class="tab-pane fade" id="electre" role="tabpanel" aria-labelledby="electre-tab">
             <br />
             <div class="card">
               <div class="card-header">
@@ -915,7 +915,7 @@ function get_sQ($Q)
               </div>
             </div>
           </div>
-          <div class="tab-pane fade" id="hasil" role="tabpanel" aria-labelledby="hasil-tab">
+          <div class="tab-pane fade show active" id="hasil" role="tabpanel" aria-labelledby="hasil-tab">
             <br />
             <div class="card">
               <div class="card-header">

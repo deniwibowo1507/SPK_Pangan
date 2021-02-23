@@ -122,13 +122,13 @@ function get_sQ($Q)
           <div class="card-header">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="electre-tab" data-toggle="tab" href="#electre" role="tab" aria-controls="electre" aria-selected="true">Electre</a>
+                <a class="nav-link active" id="vikor-tab" data-toggle="tab" href="#hasil" role="tab" aria-controls="hasil" aria-selected="false">Hasil</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="electre-tab" data-toggle="tab" href="#electre" role="tab" aria-controls="electre" aria-selected="true">Electre</a>
               </li>
               <li class="nav-item" role="presentation">
                 <a class="nav-link" id="vikor-tab" data-toggle="tab" href="#vikor" role="tab" aria-controls="vikor" aria-selected="false">Vikor</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link" id="vikor-tab" data-toggle="tab" href="#hasil" role="tab" aria-controls="hasil" aria-selected="false">Hasil</a>
               </li>
             </ul>
           </div>
@@ -136,7 +136,7 @@ function get_sQ($Q)
             <div class="card-body">
               <div class="tab-content" id="myTabContent">
                 <!-- begin:: metode electre -->
-                <div class="tab-pane fade show active" id="electre" role="tabpanel" aria-labelledby="electre-tab">
+                <div class="tab-pane fade" id="electre" role="tabpanel" aria-labelledby="electre-tab">
                   <div class="accordion" id="cardAccordion">
                     <div class="card">
                       <div class="card-header" id="headingSatu" data-toggle="collapse" data-target="#collapseSatu" aria-expanded="false" aria-controls="collapseSatu" role="button">
@@ -971,7 +971,7 @@ function get_sQ($Q)
                 </div>
                 <!-- end:: metode vikor -->
                 <!-- begin:: hasil -->
-                <div class="tab-pane fade" id="hasil" role="tabpanel" aria-labelledby="hasil-tab">
+                <div class="tab-pane fade show active" id="hasil" role="tabpanel" aria-labelledby="hasil-tab">
                   <div class="accordion" id="cardAccordion">
                     <div class="card">
                       <div class="card-header">
