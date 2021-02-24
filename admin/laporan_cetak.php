@@ -221,7 +221,7 @@ $kriteria_tujuh = [
   <?php } ?>
 </table>
 
-<p align="center">Ranking Tanaman Hasil Viktor</p>
+<p align="center">Ranking Tanaman Hasil Vikor</p>
 
 <table border="1" align="center">
   <tr>
@@ -249,7 +249,7 @@ $topsis = key($hasil_akhir2);
 <table align="center">
   <tr>
     <td align="justify" width="600">
-      <p>Berdasarkan Hasil analisa diatas, untuk metode Electre, tanaman yang memiliki poin tertinggi adalah <?php echo "<b>{$alternatif[$electre]}</b>" ?>. Sedangkan untuk hasil metode Topsis, yang memiliki nilai tertinggi adalah tanaman <?php echo "<b>{$alternatif[$topsis]}</b>" ?>.</p>
+      <p>Berdasarkan Hasil analisa diatas, untuk metode Electre, tanaman yang memiliki poin tertinggi adalah <?php echo "<b>{$alternatif[$electre]}</b>" ?>. Sedangkan untuk hasil metode Vikor, yang memiliki nilai tertinggi adalah tanaman <?php echo "<b>{$alternatif[$topsis]}</b>" ?>.</p>
     </td>
   </tr>
 </table>

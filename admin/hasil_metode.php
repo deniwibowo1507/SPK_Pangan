@@ -122,7 +122,7 @@ function get_sQ($Q)
           <div class="card-header">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="vikor-tab" data-toggle="tab" href="#hasil" role="tab" aria-controls="hasil" aria-selected="false">Hasil</a>
+                <a class="nav-link active " id="vikor-tab" data-toggle="tab" href="#hasil" role="tab" aria-controls="hasil" aria-selected="false">Hasil</a>
               </li>
               <li class="nav-item" role="presentation">
                 <a class="nav-link" id="electre-tab" data-toggle="tab" href="#electre" role="tab" aria-controls="electre" aria-selected="true">Electre</a>
@@ -1048,15 +1048,15 @@ function get_sQ($Q)
                       </div>
                       <div class="card-body">
                         <?php
-                        $metodeElectre = number_format((array_sum($totalElectre) / count($hasil1)), 2);
-                        $metodeVikor   = number_format((array_sum($totalVikor) / count($Q)), 2);
+                        $metodeElectre = (array_sum($totalElectre) / count($hasil1));
+                        $metodeVikor   = (array_sum($totalVikor) / count($Q));
 
-                        $presentaseElectre = number_format((100 - ($metodeElectre / 100)), 2);
-                        $presentaseVikor   = number_format((100 - ($metodeVikor / 100)), 2);
+                        $presentaseElectre = (100 - ($metodeElectre / 100));
+                        $presentaseVikor   = (100 - ($metodeVikor / 100));
                         ?>
                         <p>
-                          \[Metode Electre = {Jumlah Hasil Akhir \over Banyak Data} = {<?= number_format(array_sum($totalElectre), 2) ?> \over <?= count($hasil1) ?>} = <?= $metodeElectre ?>\]
-                          \[Metode Vikor = {Jumlah Hasil Akhir \over Banyak Data} = {<?= number_format(array_sum($totalVikor), 2) ?> \over <?= count($Q) ?>} = <?= $metodeVikor ?>\]
+                          \[Metode Electre = {Jumlah Hasil Akhir \over Banyak Data} = {<?= array_sum($totalElectre) ?> \over <?= count($hasil1) ?>} = <?= $metodeElectre ?>\]
+                          \[Metode Vikor = {Jumlah Hasil Akhir \over Banyak Data} = {<?= array_sum($totalVikor) ?> \over <?= count($Q) ?>} = <?= $metodeVikor ?>\]
                         </p>
                         <hr>
                         <p>
