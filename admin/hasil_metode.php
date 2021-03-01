@@ -116,8 +116,7 @@ function get_sQ($Q)
           </div>
         </div>
       </div>
-      <section class="section">
-
+      <section class="section" style="font-size: large; font-weight: bold;">
         <div class="card collapse-icon accordion-icon-rotate">
           <div class="card-header">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
