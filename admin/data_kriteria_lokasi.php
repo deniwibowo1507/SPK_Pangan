@@ -38,7 +38,6 @@
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
-                                    <tr>
                                         <th>No</th>
                                         <th>Nama Lokasi Lokasi</th>
                                         <?php
