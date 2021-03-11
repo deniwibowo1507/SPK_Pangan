@@ -13,12 +13,12 @@
                 </li>
 
                 <li class='sidebar-title'>Master</li>
-                <li class="sidebar-item">
+                <!-- <li class="sidebar-item">
                     <a href="data_lokasi.php" class='sidebar-link'>
                         <i data-feather="map-pin" width="20"></i>
                         <span>Lokasi</span>
                     </a>
-                </li>
+                </li> -->
                     <a href="data_tanaman.php" class='sidebar-link'>
                         <i data-feather="command" width="20"></i>
                         <span>Tanaman</span>
@@ -32,12 +32,12 @@
                 </li>
 
                 <li class='sidebar-title'>Pustaka</li>
-                <li class="sidebar-item">
+                <!-- <li class="sidebar-item">
                     <a href="data_kriteria_lokasi.php" class='sidebar-link'>
                         <i data-feather="map-pin" width="20"></i>
                         <span>Kriteria Lokasi</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="sidebar-item">
                     <a href="data_kriteria_tanaman.php" class='sidebar-link'>
                         <i data-feather="feather" width="20"></i>
