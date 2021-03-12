@@ -26,7 +26,7 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">No. Hp</label>
             <div class="col-sm-10">
-              <input type="text" name="inpnohp" class="form-control" placeholder="Masukkan Nomor Hp Anda" required="required" />
+              <input type="text" name="inpnohp" class="form-control" pattern="\d*" maxlength="12" placeholder="Masukkan Nomor Hp Anda" required="required" />
             </div>
           </div>
           <div class="form-group row">
