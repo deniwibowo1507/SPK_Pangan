@@ -26,7 +26,7 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">No. Hp</label>
             <div class="col-sm-10">
-              <input type="text" name="inpnohp" class="form-control" pattern="\d*" maxlength="12" placeholder="Masukkan Nomor Hp Anda" required="required" />
+              <input type="text" name="inpnohp" id="inputNumber" class="form-control" pattern="\d*" maxlength="12" placeholder="Masukkan Nomor Hp Anda" required="required" />
             </div>
           </div>
           <div class="form-group row">
@@ -64,3 +64,26 @@
 <!-- begin:: foot -->
 <?php include_once './atribut/foot.php'; ?>
 <!-- end:: foot -->
+
+<script>
+  (function($) {
+    $.fn.inputFilter = function(inputFilter) {
+      return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+        if (inputFilter(this.value)) {
+          this.oldValue = this.value;
+          this.oldSelectionStart = this.selectionStart;
+          this.oldSelectionEnd = this.selectionEnd;
+        } else if (this.hasOwnProperty("oldValue")) {
+          this.value = this.oldValue;
+          this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+        } else {
+          this.value = "";
+        }
+      });
+    };
+  }(jQuery));
+
+  $("#inputNumber").inputFilter(function(value) {
+    return /^-?\d*$/.test(value);
+  });
+</script>
