@@ -18,6 +18,12 @@
         <h2 class="mt-0">Silahkan isi form dibawah ini :</h2>
         <form action="konsul_proses.php" method="post">
           <div class="form-group row">
+            <label class="col-sm-2 col-form-label">NIK</label>
+            <div class="col-sm-10">
+              <input type="text" name="inpnik" class="form-control inputNumber" pattern="\d*" maxlength="16" placeholder="Masukkan NIK" required="required" />
+            </div>
+          </div>
+          <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nama</label>
             <div class="col-sm-10">
               <input type="text" name="inpnama" class="form-control" placeholder="Masukkan Nama Anda" required="required" />
@@ -26,7 +32,29 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">No. Hp</label>
             <div class="col-sm-10">
-              <input type="text" name="inpnohp" id="inputNumber" class="form-control" pattern="\d*" maxlength="12" placeholder="Masukkan Nomor Hp Anda" required="required" />
+              <input type="text" name="inpnohp" class="form-control inputNumber" pattern="\d*" maxlength="12" placeholder="Masukkan Nomor Hp Anda" required="required" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Tempat Lahir</label>
+            <div class="col-sm-10">
+              <input type="text" name="inptmplhr" class="form-control" placeholder="Masukkan Tempat Lahir" required="required" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Tanggal Lahir</label>
+            <div class="col-sm-10">
+              <input type="date" name="inptgllhr" class="form-control" required="required" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Jenis Kelamin</label>
+            <div class="col-sm-10">
+              <select name="inpjenkel" class="form-control" required="required">
+                <option value="">Pilih Jenis Kelamin</option>
+                <option value="L">Laki - laki</option>
+                <option value="P">Perempuan</option>
+              </select>
             </div>
           </div>
           <div class="form-group row">
@@ -83,7 +111,7 @@
     };
   }(jQuery));
 
-  $("#inputNumber").inputFilter(function(value) {
+  $(".inputNumber").inputFilter(function(value) {
     return /^-?\d*$/.test(value);
   });
 </script>

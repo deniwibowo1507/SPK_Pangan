@@ -7,6 +7,7 @@ $get_data   = "SELECT tb_history.*, tb_lokasi.nama_lokasi FROM tb_history INNER 
 $q_data     = $connect->query($get_data);
 $s_data     = $q_data->fetch_array(MYSQLI_ASSOC);
 
+$nik        = $s_data['nik'];
 $nama       = $s_data['nama'];
 $no_hp      = $s_data['no_hp'];
 $alamat     = $s_data['alamat'];
@@ -180,9 +181,32 @@ $kriteria_tujuh = [
   <hr>
 </div>
 
-<p align="center">Data Lokasi <br> <br>
-  <?= $nma_lokasi; ?>
-</p>
+<p align="center">Data User</p>
+
+<table align="center">
+  <tr>
+    <td width="50">NIK</td>
+    <td>:</td>
+    <td><?= $nik ?></td>
+  </tr>
+  <tr>
+    <td width="50">Nama</td>
+    <td>:</td>
+    <td><?= $nama ?></td>
+  </tr>
+</table>
+
+<p align="center">Data Lokasi</p>
+
+<table align="center">
+  <tr>
+    <td width="50">Lokasi</td>
+    <td>:</td>
+    <td><?= $nma_lokasi ?></td>
+  </tr>
+</table>
+
+<br>
 
 <table border="1" align="center">
   <tr align="center">

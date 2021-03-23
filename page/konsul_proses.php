@@ -5,13 +5,17 @@
 <?php
 if (isset($_POST['proses'])) {
   // mengambil hasil inputan
+  $nik       = $_POST['inpnik'];
   $nama      = $_POST['inpnama'];
   $no_hp     = $_POST['inpnohp'];
+  $tmp_lhr   = $_POST['inptmplhr'];
+  $tgl_lhr   = $_POST['inptgllhr'];
+  $jen_kel   = $_POST['inpjenkel'];
   $alamat    = $_POST['inpalamat'];
   $id_lokasi = $_POST['inplokasi'];
 
   // insert ke dalam tabel history
-  $connect->query("INSERT INTO tb_history (nama, no_hp, alamat, lokasi) VALUES ('$nama', '$no_hp', '$alamat', '$id_lokasi')");
+  $connect->query("INSERT INTO tb_history (nik, nama, no_hp, tmp_lhr, tgl_lhr, jen_kel, alamat, lokasi) VALUES ('$nik', '$nama', '$no_hp', '$tmp_lhr', '$tgl_lhr', '$jen_kel', '$alamat', '$id_lokasi')");
 
   $qry4      = $connect->query("SELECT * FROM tb_kriteria_lokasi WHERE id_lokasi = '$id_lokasi'");
   $row4      = $qry4->fetch_array(MYSQLI_ASSOC);

@@ -8,6 +8,7 @@
                 <li class="nav-item"><a class="nav-link" href="konsul.php">Proses Algoritma</a></li>
                 <li class="nav-item"><a class="nav-link" href="lokasi.php">Tambah Lokasi</a></li>
                 <li class="nav-item"><a class="nav-link" href="riwayat.php">Riwayat</a></li>
+                <li class="nav-item"><a class="nav-link" href="bantuan.php">Bantuan</a></li>
                 <li class="nav-item"><a class="nav-link" href="masuk.php">Masuk</a></li>
             </ul>
         </div>
