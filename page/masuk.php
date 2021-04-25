@@ -26,6 +26,14 @@ if (isset($_POST["masuk"])) {
                     header("location: ./../admin/index.php");
                     exit;
                 }
+                if ($row['level'] == 'user') {
+                    // set session
+                    $_SESSION["inpusername"] = $user;
+                    $_SESSION["id_user"]     = $row['id_user'];
+                    $_SESSION["level"]       = 'user';
+                    header("location: ./../user/index.php");
+                    exit;
+                }
             } else {
                 $inppassword = true;
             }

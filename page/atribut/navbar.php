@@ -5,11 +5,9 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto my-2 my-lg-0">
                 <li class="nav-item"><a class="nav-link" href="beranda.php">Beranda</a></li>
-                <li class="nav-item"><a class="nav-link" href="lokasi.php">Tambah Lokasi</a></li>
-                <li class="nav-item"><a class="nav-link" href="konsul.php">Proses Algoritma</a></li>
-                <li class="nav-item"><a class="nav-link" href="riwayat.php">Riwayat</a></li>
                 <li class="nav-item"><a class="nav-link" href="bantuan.php">Bantuan</a></li>
                 <li class="nav-item"><a class="nav-link" href="masuk.php">Masuk</a></li>
+                <li class="nav-item"><a class="nav-link" href="daftar.php">Daftar</a></li>
             </ul>
         </div>
     </div>
