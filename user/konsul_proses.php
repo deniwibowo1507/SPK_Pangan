@@ -1021,6 +1021,18 @@ function get_sQ($Q)
             <br />
             <div class="card">
               <div class="card-header">
+                <span class="collapsed collapse-title">Kesimpulan</span>
+              </div>
+              <div class="card-body">
+                <p>
+                  Berdasarkan proses perhitungan Metode Vikor dan Electre maka dapat disimpulkan bahwa metode Vikor dan Electre adalah <b><?= ($presentaseElectre > $presentaseVikor ? "Metode Electre" : "Metode Vikor") ?></b> yang memiliki tingkat akurasi tinggi dengan hasil perhitungan Vikor <?= $presentaseVikor ?>% : Electre <?= $presentaseElectre ?>%.
+                </p>
+              </div>
+            </div>
+
+            <br />
+            <div class="card">
+              <div class="card-header">
                 <span class="collapsed collapse-title">Chart</span>
               </div>
               <div class="card-body">
