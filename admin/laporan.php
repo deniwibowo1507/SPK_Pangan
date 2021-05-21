@@ -47,7 +47,7 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1;
-                                    $data = $connect->query('SELECT tb_history.*, tb_lokasi.nama_lokasi FROM tb_history INNER JOIN tb_lokasi ON tb_history.lokasi = tb_lokasi.id_lokasi ORDER BY id_history');
+                                    $data = $connect->query("SELECT tb_laporan.*, tb_member.*, tb_lokasi.nama_lokasi FROM tb_laporan LEFT JOIN tb_lokasi ON tb_laporan.id_lokasi = tb_lokasi.id_lokasi LEFT JOIN tb_member ON tb_laporan.id_user = tb_member.id_user ORDER BY id_laporan");
                                     while ($row = $data->fetch_array(MYSQLI_ASSOC)) { ?>
                                         <tr>
                                             <td><?= $no++ ?></td>

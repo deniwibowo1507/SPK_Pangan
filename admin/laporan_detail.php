@@ -4,14 +4,14 @@
 
 <?php
 $id_history = $_GET['id_history'];
-$get_data   = "SELECT tb_history.*, tb_lokasi.nama_lokasi FROM tb_history INNER JOIN tb_lokasi ON tb_history.lokasi = tb_lokasi.id_lokasi WHERE id_history = '$id_history'";
+$get_data   = "SELECT tb_laporan.*, tb_member.*, tb_lokasi.nama_lokasi FROM tb_laporan LEFT JOIN tb_lokasi ON tb_laporan.id_lokasi = tb_lokasi.id_lokasi LEFT JOIN tb_member ON tb_laporan.id_user = tb_member.id_user WHERE id_laporan = '$id_history'";
 $q_data     = $connect->query($get_data);
 $s_data     = $q_data->fetch_array(MYSQLI_ASSOC);
 
 $nama       = $s_data['nama'];
 $no_hp      = $s_data['no_hp'];
 $alamat     = $s_data['alamat'];
-$id_lokasi  = $s_data['lokasi'];
+$id_lokasi  = $s_data['id_lokasi'];
 $nma_lokasi = $s_data['nama_lokasi'];
 
 $qry4      = $connect->query("SELECT * FROM tb_kriteria_lokasi WHERE id_lokasi = '$id_lokasi'");
